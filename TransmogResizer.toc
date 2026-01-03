@@ -1,0 +1,15 @@
+## Interface: 110207
+## Title: TransmogResizer
+## Version: 1.0.0
+## Author: ru_the_dev (Pookie)
+## Notes: Allows resizing of the Transmog and Collection frames.
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## X-Category: Transmorgrification
+## IconTexture: Interface\AddOns\TransmogResizer\Assets\logo
+## Dependencies: Blizzard_Collections
+
+LibRu/Load.xml
+
+TransmogResize.lua
+CollectionFrame.lua
