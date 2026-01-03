@@ -1,0 +1,21 @@
+# Lua
+*.luac
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+bin/
+obj/
+dist/
+
+# Addon specific
+*.zip
