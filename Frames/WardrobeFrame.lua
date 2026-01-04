@@ -37,7 +37,6 @@ end)
 
 _G.BetterTransmog.EventFrame:AddScript("OnAccountDBInitialized", function(handle)
     if name ~= "BetterTransmog" then return end;
-    
-end)
 
+end)
 
