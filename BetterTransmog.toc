@@ -16,8 +16,11 @@ LibRu/Load.xml
 Initialize.lua
 Database/AccountDB.lua
 
+Frames/WardrobeFrame.lua
+Frames/WardrobeTransmogFrame.lua
+
 Settings.lua
 ## BetterTransmog.lua
-##CollectionFrame.lua
+## CollectionFrame.lua
 
-TransmogModelScene.lua
+## TransmogModelScene.lua

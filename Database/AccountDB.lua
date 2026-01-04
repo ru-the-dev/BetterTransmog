@@ -6,6 +6,10 @@ if not _G.BetterTransmog.EventFrame then error("Initialize EventFrame first") en
 
 local DEFAULTS = {
     TransmogFrame = {
+        Size = {
+            Width  = 965,
+            Height = 606,
+        },
         CharacterModelWidthPercent = 40,
         CollectionFrameModels      = 30,
         SetFrameModels             = 12,
