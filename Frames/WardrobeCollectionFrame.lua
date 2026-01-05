@@ -26,6 +26,12 @@ function WardrobeCollectionFrame:SetContainer(parent)
         self.ClassDropdown:Show()
         self.ItemsCollectionFrame.NoValidItemsLabel:Hide()
         self.ItemsTab:SetPoint("TOPLEFT", 58, -28)
+        
+        -- Initialize required state before SetTab
+        self.ItemsCollectionFrame.transmogLocation = TransmogUtil.GetTransmogLocation("HEADSLOT", Enum.TransmogType.Appearance, Enum.TransmogModification.Main)
+        self.ItemsCollectionFrame.activeCategory = 1
+        self.ItemsCollectionFrame.filteredVisualsList = {}
+        
         self:SetTab(self.selectedCollectionTab)
     elseif parent == WardrobeFrame then
         self:SetPoint("TOPLEFT", WardrobeTransmogFrame, "TOPRIGHT", -5, 60)
@@ -38,6 +44,12 @@ function WardrobeCollectionFrame:SetContainer(parent)
         self.ItemsCollectionFrame.WeaponDropdown:SetPoint("TOPRIGHT", -48, -26)
         self.ClassDropdown:Hide()
         self.ItemsTab:SetPoint("TOPLEFT", 8, -28)
+        
+        -- Initialize required state before SetTab
+        self.ItemsCollectionFrame.transmogLocation = TransmogUtil.GetTransmogLocation("HEADSLOT", Enum.TransmogType.Appearance, Enum.TransmogModification.Main)
+        self.ItemsCollectionFrame.activeCategory = 1
+        self.ItemsCollectionFrame.filteredVisualsList = {}
+        
         self:SetTab(self.selectedTransmogTab)
     end
     
