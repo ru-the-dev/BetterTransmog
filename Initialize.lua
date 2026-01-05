@@ -16,22 +16,15 @@ _G.BetterTransmog.Debug = true; -- Toggle this to enable/disable debug messages
 
 
 function _G.BetterTransmog.DebugLog(message)
-    if _G.BetterTransmog.Debug then
-        print("|cff9f7fffBetterTransmog [DEBUG]:|r " .. tostring(message));
-    end
+    print("|cff9f7fffBetterTransmog [DEBUG]:|r " .. tostring(message))
+end
+
+-- If not in debug mode, replace with empty function
+if not _G.BetterTransmog.Debug then
+    _G.BetterTransmog.DebugLog = function() end
 end
 
 
 
 -- Create a Global event frame
 _G.BetterTransmog.EventFrame = LibRu.Frames.EventFrame.New(CreateFrame("Frame"));
-
--- _G.BetterTransmog.EventFrame:AddEvent("ADDON_LOADED", function (handle, event, addonName)
---     if addonName ~= "BetterTransmog" then return end;
-
---     _G.BetterTransmog.DebugLog("BetterTransmog initialized.");
-
-
---     -- Remove this event handler after initialization
---     _G.BetterTransmog.EventFrame:RemoveEvent(handle)
--- end)
