@@ -16,6 +16,7 @@ WardrobeFrame = LibRu.Frames.EventFrame.New(WardrobeFrame);
 WardrobeFrame.ResizeButton = LibRu.Frames.ResizeButton.New(WardrobeFrame, WardrobeFrame, 32);
 
 WardrobeFrame:SetResizeBounds(885, 525);
+WardrobeFrame:SetClampedToScreen(true);
 
 WardrobeFrame:AddScript("OnSizeChanged", function(self, handle, width, height)
    _G.BetterTransmog.DebugLog("WardrobeFrame size changed: " .. width .. "x" .. height);
