@@ -176,7 +176,11 @@ if not eventFrame then return end
 -- This fires after BetterTransmog has loaded saved variables and is ready
 eventFrame:AddScript("OnAccountDBInitialized", function(self, handle)
     local itemsFrame = WardrobeCollectionFrame.ItemsCollectionFrame
-    if not itemsFrame then return end
+    
+    if not itemsFrame then 
+        _G.BetterTransmog.DebugLog("ItemsCollectionFrame not found, cannot initialize additional item models.")
+        return
+    end
 
     -- Create any additional models needed based on user settings
     CreateAdditionalModels(itemsFrame)
