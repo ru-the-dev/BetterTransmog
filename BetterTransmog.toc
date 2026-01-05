@@ -22,6 +22,5 @@ Frames/WardrobeCollectionFrame.lua
 
 Settings.lua
 ## BetterTransmog.lua
-## CollectionFrame.lua
 
 ## TransmogModelScene.lua
