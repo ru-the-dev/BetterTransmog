@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Title: BetterTransmog
-## Version: 1.0.1
+## Version: 1.1.1
 ## Author: ru_the_dev (Pookie)
 ## Notes: Allows resizing of the Transmog and Collection frames.
 ## DefaultState: Enabled
@@ -8,12 +8,14 @@
 ## X-Category: Transmog
 ## IconTexture: Interface\AddOns\BetterTransmog\Assets\logo
 ## Dependencies: Blizzard_Collections
+## OptionalDeps: BetterWardrobe
 
 ## SavedVariables: BetterTransmogAccountDB
 
 LibRu/Load.xml
 
 Initialize.lua
+Compatibility.lua
 Database/AccountDB.lua
 
 Frames/WardrobeFrame.lua
