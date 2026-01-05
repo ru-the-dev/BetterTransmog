@@ -18,6 +18,7 @@ EXCLUDES = {
     ".vscode",
     "dist",
     "*.code-workspace",
+    "package.py",
 }
 
 
