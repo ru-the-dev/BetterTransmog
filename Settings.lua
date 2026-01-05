@@ -23,13 +23,13 @@ local function BuildPanel()
     subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
     subtitle:SetText("Adjust layout and item grid sizes.")
 
-    local s1 = LibRu.Frames.Slider.New(panel, "BetterTransmog_Slider_ModelWidth", "Model Width (% of frame):", 30, 50, 1, _G.BetterTransmog.DB.Account.TransmogFrame, "CharacterModelWidthPercent", function(v) return v .. "%" end)
+    local s1 = LibRu.Frames.ValueSlider.New(panel, "BetterTransmog_Slider_ModelWidth", "Model Width (% of frame):", 30, 50, 1, _G.BetterTransmog.DB.Account.TransmogFrame, "CharacterModelWidthPercent", function(v) return v .. "%" end)
     s1:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -verticalSpacing)
 
-    local s2 = LibRu.Frames.Slider.New(panel, "BetterTransmog_Slider_CollectionGrid", "Collection Grid Models:", 18, 50, 1, _G.BetterTransmog.DB.Account.TransmogFrame, "CollectionFrameModels")
+    local s2 = LibRu.Frames.ValueSlider.New(panel, "BetterTransmog_Slider_CollectionGrid", "Collection Grid Models:", 18, 50, 1, _G.BetterTransmog.DB.Account.TransmogFrame, "CollectionFrameModels")
     s2:SetPoint("TOPLEFT", s1, "BOTTOMLEFT", 0, -verticalSpacing)
 
-    local s3 = LibRu.Frames.Slider.New(panel, "BetterTransmog_Slider_SetGrid", "Set Grid Models:", 8, 18, 1, _G.BetterTransmog.DB.Account.TransmogFrame, "SetFrameModels")
+    local s3 = LibRu.Frames.ValueSlider.New(panel, "BetterTransmog_Slider_SetGrid", "Set Grid Models:", 8, 18, 1, _G.BetterTransmog.DB.Account.TransmogFrame, "SetFrameModels")
     s3:SetPoint("TOPLEFT", s2, "BOTTOMLEFT", 0, -verticalSpacing)
 
     local resetButton = CreateFrame("Button", "BetterTransmog_ResetButton", panel, "GameMenuButtonTemplate")
@@ -47,7 +47,7 @@ local function BuildPanel()
 end
 
 
-_G.BetterTransmog.EventFrame:AddScript("OnAccountDBInitialized", function(handle)
+_G.BetterTransmog.EventFrame:AddScript("OnAccountDBInitialized", function(self, handle)
     BuildPanel()
     _G.BetterTransmog.DebugLog("BetterTransmog settings panel initialized.")
 

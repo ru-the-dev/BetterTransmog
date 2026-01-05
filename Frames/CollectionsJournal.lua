@@ -19,7 +19,7 @@ end
 -- CollectionsJournal:SetFrameStrata("HIGH"); -- Always on top of other UI panels
 
 -- -- Update UIPanelWindows width when resized
--- CollectionsJournal:AddScript("OnSizeChanged", function(handle, width, height)
+-- CollectionsJournal:AddScript("OnSizeChanged", function(self, handle, width, height)
 --     if UIPanelWindows["CollectionsJournal"] then
 --         UIPanelWindows["CollectionsJournal"].width = width
 --     end
@@ -37,7 +37,7 @@ end
 -- LibRu.CreateResizeButton(CollectionsJournal, CollectionsJournal, 16);
 -- -- TODO: Set minimum and maximum size constraints
 
--- _G.BetterTransmog.EventFrame:AddScript("OnAccountDBInitialized", function(handle)
+-- _G.BetterTransmog.EventFrame:AddScript("OnAccountDBInitialized", function(self, handle)
 --     if name ~= "BetterTransmog" then return end;
     
 -- end)

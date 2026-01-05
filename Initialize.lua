@@ -24,7 +24,7 @@ end
 
 
 -- Create a Global event frame
-_G.BetterTransmog.EventFrame = LibRu.EventFrame.New(CreateFrame("Frame"));
+_G.BetterTransmog.EventFrame = LibRu.Frames.EventFrame.New(CreateFrame("Frame"));
 
 -- _G.BetterTransmog.EventFrame:AddEvent("ADDON_LOADED", function (handle, event, addonName)
 --     if addonName ~= "BetterTransmog" then return end;

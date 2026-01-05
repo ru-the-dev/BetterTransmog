@@ -2,7 +2,7 @@ if not _G.BetterTransmog then
     error("BetterTransmog must be initialized before TransmogModelScene.lua. Please ensure Initialize.lua is loaded first.")
 end
 
---- @type LibRu
+--- @class LibRu
 local LibRu = _G["LibRu"]
 
 if not LibRu then
@@ -11,7 +11,7 @@ end
 
 
 -- convert wardrobe transmog frame to a eventframe
-WardrobeTransmogFrame = LibRu.EventFrame.New(WardrobeTransmogFrame);
+WardrobeTransmogFrame = LibRu.Frames.EventFrame.New(WardrobeTransmogFrame);
 
 -- Button arrays for positioning
 local slotButtons = {
@@ -64,10 +64,11 @@ InsetBG:SetPoint("BOTTOMRIGHT", WardrobeTransmogFrame.Inset, "BOTTOMRIGHT", -1, 
 local function UpdateTransmogSlotPositions(height)
     local yOffsetScalar = 0.1;
     local yOffset = height * yOffsetScalar;
+    local distanceFromBorder = 10;
     local ySpacing = (height * (1 - yOffsetScalar) - (#slotButtons.Left * 60)) / #slotButtons.Left
 
     -- Position left side buttons
-    slotButtons.Left[1]:SetPoint("TOPLEFT", WardrobeTransmogFrame, "TOPLEFT", 28, -yOffset);
+    slotButtons.Left[1]:SetPoint("TOPLEFT", WardrobeTransmogFrame, "TOPLEFT", distanceFromBorder, -yOffset);
     for i = 2, (#slotButtons.Left) do
         slotButtons.Left[i]:SetPoint("TOP", slotButtons.Left[i - 1], "BOTTOM", 0, -ySpacing);
     end
@@ -77,25 +78,25 @@ local function UpdateTransmogSlotPositions(height)
     WardrobeTransmogFrame.SecondaryShoulderButton:SetPoint("LEFT", WardrobeTransmogFrame.ShoulderButton, "RIGHT", 15, 0);
     
     -- Position right side buttons
-    slotButtons.Right[1]:SetPoint("TOPRIGHT", WardrobeTransmogFrame, "TOPRIGHT", -28, -yOffset);
+    slotButtons.Right[1]:SetPoint("TOPRIGHT", WardrobeTransmogFrame, "TOPRIGHT", -distanceFromBorder, -yOffset);
     for i = 2, (#slotButtons.Right) do
         slotButtons.Right[i]:SetPoint("TOP", slotButtons.Right[i - 1], "BOTTOM", 0, -ySpacing);
     end
     
     -- Position weapon buttons
     WardrobeTransmogFrame.MainHandButton:ClearAllPoints();
-    WardrobeTransmogFrame.MainHandButton:SetPoint("BOTTOM", WardrobeTransmogFrame, "BOTTOM", -28, 24);
+    WardrobeTransmogFrame.MainHandButton:SetPoint("BOTTOM", WardrobeTransmogFrame, "BOTTOM", -28, distanceFromBorder);
     WardrobeTransmogFrame.MainHandEnchantButton:ClearAllPoints();
     WardrobeTransmogFrame.MainHandEnchantButton:SetPoint("BOTTOM", WardrobeTransmogFrame.MainHandButton, "TOP", 0, -5);
     
     WardrobeTransmogFrame.SecondaryHandButton:ClearAllPoints();
-    WardrobeTransmogFrame.SecondaryHandButton:SetPoint("BOTTOM", WardrobeTransmogFrame, "BOTTOM", 28, 24);
+    WardrobeTransmogFrame.SecondaryHandButton:SetPoint("BOTTOM", WardrobeTransmogFrame, "BOTTOM", 28, distanceFromBorder);
     WardrobeTransmogFrame.SecondaryHandEnchantButton:ClearAllPoints();
     WardrobeTransmogFrame.SecondaryHandEnchantButton:SetPoint("BOTTOM", WardrobeTransmogFrame.SecondaryHandButton, "TOP", 0, -5);
 end
 
 
-WardrobeFrame:AddScript("OnSizeChanged", function(handle, width, height)
+WardrobeFrame:AddScript("OnSizeChanged", function(self, handle, width, height)
     local TransmogFrameConfig = _G.BetterTransmog.DB.Account.TransmogFrame;
     local newWidth = TransmogFrameConfig.CharacterModelWidthPercent / 100 * width;
     WardrobeTransmogFrame:SetWidth(newWidth);
@@ -104,4 +105,4 @@ WardrobeFrame:AddScript("OnSizeChanged", function(handle, width, height)
     UpdateTransmogSlotPositions(height);
 end)
 
-UpdateTransmogSlotPositions(WardrobeTransmogFrame:GetWidth());
+UpdateTransmogSlotPositions(WardrobeTransmogFrame:GetHeight());
