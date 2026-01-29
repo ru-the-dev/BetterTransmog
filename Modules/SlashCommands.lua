@@ -44,9 +44,9 @@ function Module:OnInitialize()
 
     local function PrintHelp()
         print("|cff00ccffBetterTransmog|r commands:")
-        print("  /bt outfits | outfit | fits  - Open outfit swap mode")
+        print("  /bt outfits | outfit | fits    - Open outfit swap mode")
         print("  /bt settings | options         - Open settings")
-        print("  /bt changelog | changes         - Show changelog")
+        print("  /bt changelog | changes        - Show changelog")
         print("  /bt help                       - Show this help")
     end
 

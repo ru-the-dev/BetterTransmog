@@ -74,7 +74,6 @@ function Module:OnInitialize()
     if TryDisableBlizzMoveTransmogFrame() then return end;
 
     Core.EventFrame:AddEvent("ADDON_LOADED", function (self, handle, event, addonName)
-        print("BlizzMove Compatibility: ADDON_LOADED for " .. tostring(addonName))
         if addonName == "BlizzMove" then
             TryDisableBlizzMoveTransmogFrame()
             self:RemoveEvent(handle)
