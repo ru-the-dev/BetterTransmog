@@ -8,7 +8,7 @@ local Core = _G.BetterTransmog;
 
 --- @class BetterTransmog.Modules.TransmogFrame : LibRu.Module
 ---@field Modules {CharacterPreview: BetterTransmog.Modules.TransmogFrame.CharacterPreview, OutfitCollection: BetterTransmog.Modules.TransmogFrame.OutfitCollection, Positioning: BetterTransmog.Modules.TransmogFrame.Positioning, Resizing: BetterTransmog.Modules.TransmogFrame.Resizing, SettingsButton: BetterTransmog.Modules.TransmogFrame.SettingsButton, WardrobeCollection: BetterTransmog.Modules.TransmogFrame.WardrobeCollection}
-local Module = Core.Libs.LibRu.Module.New("TransmogFrame", Core, { Core });
+local Module = Core.Libs.LibRu.Module.New("TransmogFrame", Core, { Core }, false);
 
 --- =======================================================
 --- locals

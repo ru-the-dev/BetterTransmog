@@ -8,7 +8,8 @@ local Module = Core.Libs.LibRu.Module.New(
     { 
         Core.Modules.AccountDB, 
         Core.Modules.TransmogFrame.Modules.CharacterPreview
-    } 
+    },
+    false
 )
 
 --- ======================================================

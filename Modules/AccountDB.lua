@@ -5,7 +5,7 @@ local Core = _G.BetterTransmog;
 
 
 ---@class BetterTransmog.Modules.AccountDB : LibRu.Module
-local Module = Core.Libs.LibRu.Module.New("AccountDB", Core, { Core });
+local Module = Core.Libs.LibRu.Module.New("AccountDB", Core, { Core }, false);
 
 local DEFAULTS = {
     LastChangeLogVersion = "",

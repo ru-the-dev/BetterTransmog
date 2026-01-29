@@ -7,7 +7,8 @@ local Module = Core.Libs.LibRu.Module.New(
     Core, 
     { 
         Core.Modules.AccountDB
-    } 
+    },
+    false
 )
 
 --- ======================================================

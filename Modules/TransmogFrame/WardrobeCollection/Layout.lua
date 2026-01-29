@@ -11,7 +11,8 @@ local Module = Core.Libs.LibRu.Module.New(
     Core.Modules.TransmogFrame.Modules.WardrobeCollection, 
     { 
         Core.Modules.TransmogFrame.Modules.WardrobeCollection
-    }
+    },
+    false
 );
 
 --- =======================================================

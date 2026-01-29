@@ -11,7 +11,8 @@ local Module = Core.Libs.LibRu.Module.New(
     Core,
     {
         Core
-    }
+    },
+    false
 )
 
 function Module:OnInitialize()

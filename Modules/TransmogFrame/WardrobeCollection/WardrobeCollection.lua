@@ -11,7 +11,8 @@ local Module = Core.Libs.LibRu.Module.New(
     Core.Modules.TransmogFrame, 
     { 
         Core.Modules.TransmogFrame 
-    }
+    },
+    false
 );
 
 --- =======================================================
@@ -55,35 +56,6 @@ Module.Settings = {
 -- =======================================================
 -- Module Implementation
 -- =======================================================
-
-local function RefreshActiveTab()
-    local wardrobeCollectionFrame = Module:GetFrame();
-
-    -- get active tab ID
-    local tabId = wardrobeCollectionFrame:GetTab()
-
-    if not tabId then
-        Module:DebugLog("No active tab ID found on WardrobeCollectionFrame.")
-        return
-    end
-
-    -- get active tab elements
-    local tabElements = wardrobeCollectionFrame:GetElementsForTab(tabId)
-
-    -- loop over elements
-    for _, element in ipairs(tabElements) do
-        
-        -- if the element has paged content (AKA it's a PagedContentFrame)
-        if element:IsShown() and element.PagedContent then
-            local paged = element.PagedContent
-
-            if paged and paged.RefreshLayout then
-                paged:RefreshLayout()
-                Module:DebugLog("Refreshed layout for active tab ID: " .. tostring(tabId))
-            end
-        end
-    end
-end
 
 ---@param eventFrame Frame
 ---@param handle any

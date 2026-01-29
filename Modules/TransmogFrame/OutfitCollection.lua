@@ -11,7 +11,8 @@ local Module = Core.Libs.LibRu.Module.New(
     Core.Modules.TransmogFrame, 
     { 
         Core.Modules.TransmogFrame 
-    }
+    },
+    false
 );
 
 --- =======================================================
