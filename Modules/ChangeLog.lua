@@ -31,7 +31,7 @@ CHANGELOG_ELEMENTS = {
         {type = 'heading', text = [[Added a setting to hide the minimap button]], level = 2, indent_level = 1},
         {type = 'text', text = [[Toggle the minimap button visibility from Settings.]], indent_level = 2},
         {type = 'heading', text = [[Added compatibility with BlizzMove]], level = 2, indent_level = 1},
-        {type = 'text', text = [[Prevents BlizzMove from repositioning the transmog frame.]], indent_level = 2},
+        {type = 'text', text = [[Prevents BlizzMove from repositioning the transmog frame, instead using BetterTransmogs native functionality]], indent_level = 2},
         {type = 'heading', text = [[Added compatibility with Plumber]], level = 2, indent_level = 1},
         {type = 'text', text = [[Automatically disables Plumber's TransmogOutfitSelect when BetterTransmog is enabled.]], indent_level = 2},
     },
