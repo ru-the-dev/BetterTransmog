@@ -8,9 +8,7 @@ local function IsPlumberLoaded()
     if C_AddOns and C_AddOns.IsAddOnLoaded then
         return C_AddOns.IsAddOnLoaded("Plumber")
     end
-    if IsAddOnLoaded then
-        return IsAddOnLoaded("Plumber")
-    end
+    
     return false
 end
 
@@ -54,13 +52,6 @@ end
 
 function Module:OnInitialize()
     if TryDisablePlumberOutfitSelect() then
-        return
-    end
-
-    if EventUtil and EventUtil.ContinueOnAddOnLoaded then
-        EventUtil.ContinueOnAddOnLoaded("Plumber", function()
-            TryDisablePlumberOutfitSelect()
-        end)
         return
     end
 
