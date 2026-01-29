@@ -2,43 +2,29 @@
 local Core = _G.BetterTransmog;
 
 --- @class BetterTransmog.Modules.Compatibility.Plumber : LibRu.Module
-local Module = Core.Libs.LibRu.Module.New("Compatibility.Plumber", Core, { Core });
+local Module = Core.Libs.LibRu.Module.New("Compatibility.Plumber", Core, { Core }, true);
 
 local function IsPlumberLoaded()
-    if C_AddOns and C_AddOns.IsAddOnLoaded then
-        return C_AddOns.IsAddOnLoaded("Plumber")
-    end
-    
-    return false
+    return C_AddOns.IsAddOnLoaded("Plumber")
 end
 
 local function TryDisablePlumberOutfitSelect()
     if not IsPlumberLoaded() then
+        Module:DebugLog("Plumber not loaded.")
         return false
     end
 
     local disabled = false
 
     if type(_G.PlumberDB) == "table" then
-        _G.PlumberDB.TransmogOutfitSelect = false
-        disabled = true
-    end
+        if _G.PlumberDB.TransmogOutfitSelect == true then
+            _G.PlumberDB.TransmogOutfitSelect = false
 
-    local plumber = _G.Plumber
-    local cc = plumber and plumber.ControlCenter
-    if cc then
-        if cc.SetModuleEnabled then
-            cc:SetModuleEnabled("TransmogOutfitSelect", false)
-            disabled = true
+            -- Warn user that we disabled it, and that plumbers module will not work with BetterTransmog enabled.
+            Core:PrintAddonMessage("|cFFFFFF00Disabled Plumber's TransmogOutfitSelect module to avoid conflicts. Please do not re-enable it while BetterTransmog is enabled.|r")
+
         end
-        if cc.DisableModule then
-            cc:DisableModule("TransmogOutfitSelect")
-            disabled = true
-        end
-        if cc.ToggleModule then
-            cc:ToggleModule("TransmogOutfitSelect", false)
-            disabled = true
-        end
+        disabled = true
     end
 
     if disabled then
@@ -51,13 +37,11 @@ local function TryDisablePlumberOutfitSelect()
 end
 
 function Module:OnInitialize()
-    if TryDisablePlumberOutfitSelect() then
-        return
-    end
-
+    if TryDisablePlumberOutfitSelect() then return end;
+    
     Core.EventFrame:AddEvent("ADDON_LOADED", function (self, handle, event, addonName)
         if addonName == "Plumber" then
-            self:UnregisterEvent("ADDON_LOADED")
+            self:RemoveEvent(handle)
             TryDisablePlumberOutfitSelect()
         end
     end)
