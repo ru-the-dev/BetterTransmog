@@ -1,3 +1,14 @@
+# Version 2.0.5
+
+## Added a setting to hide the minimap button
+Toggle the minimap button visibility from Settings.
+
+## Added compatibility with BlizzMove
+Prevents BlizzMove from repositioning the transmog frame, instead using BetterTransmogs native functionality
+
+## Added compatibility with Plumber
+Automatically disables Plumber's TransmogOutfitSelect when BetterTransmog is enabled.
+
 # Version 2.0.4
 Quite a major update containing many requested features and improvements! As usual, thank you for your feedback and support and bug reports, if you have any, don't hesitate to open a issue on the github page!
 

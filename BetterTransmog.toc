@@ -1,8 +1,8 @@
 ## Interface: 120000, 120001
 ## Title: BetterTransmog
-## Version: 2.0.4
+## Version: 2.0.5
 ## Author: ru_the_dev (Pookie)
-## Notes: Allows resizing of the Transmog and Collection frames.
+## Notes: Enhances the Transmogrification with QoL features
 ## X-Category: Transmog
 ## X-Wago-ID: O67DDgK3
 ## X-Curse-Project-ID: 1419088

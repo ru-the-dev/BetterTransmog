@@ -26,6 +26,15 @@ local ChangeLogMixin = Core.Libs.LibRu.Frames.Mixins.ChangeLogFrameMixin;
 local CURRENT_VERSION = C_AddOns.GetAddOnMetadata(Core.Name, "Version")
 
 CHANGELOG_ELEMENTS = {
+    ['Version 2.0.5'] = {
+        {type = 'heading', text = [[Version 2.0.5]], level = 1, indent_level = 0},
+        {type = 'heading', text = [[Added a setting to hide the minimap button]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Toggle the minimap button visibility from Settings.]], indent_level = 2},
+        {type = 'heading', text = [[Added compatibility with BlizzMove]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Prevents BlizzMove from repositioning the transmog frame.]], indent_level = 2},
+        {type = 'heading', text = [[Added compatibility with Plumber]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Automatically disables Plumber's TransmogOutfitSelect when BetterTransmog is enabled.]], indent_level = 2},
+    },
     ['Version 2.0.4'] = {
         {type = 'heading', text = [[Version 2.0.4]], level = 1, indent_level = 0},
         {type = 'text', text = [[Quite a major update containing many requested features and improvements! As usual, thank you for your feedback and support and bug reports, if you have any, don't hesitate to open a issue on the github page!]], indent_level = 1},
