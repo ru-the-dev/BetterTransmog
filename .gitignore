@@ -8,6 +8,9 @@
 *.swo
 *~
 
+# venv
+.venv/
+
 # OS
 .DS_Store
 Thumbs.db
