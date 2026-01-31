@@ -43,12 +43,9 @@ local DEFAULTS = {
 }
 
 function Module:OnInitialize()
-    local accountDB_SV = _G.BetterTransmogAccountDB;
-    if accountDB_SV == nil then
-        error("BetterTransmogAccountDB SavedVariable is missing. Please make sure it is declared in the .toc file.")
-    end
+    _G.BetterTransmogAccountDB = _G.BetterTransmogAccountDB or {};
     
-    local AccountDB = Core.Libs.LibRu.Database.Create(accountDB_SV, DEFAULTS);
+    local AccountDB = Core.Libs.LibRu.Database.Create(_G.BetterTransmogAccountDB, DEFAULTS);
 
     AccountDB:Init();
 
