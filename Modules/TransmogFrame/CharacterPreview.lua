@@ -190,14 +190,12 @@ local function AddCollapseButton()
 
     previewCollapseButton = Core.Libs.LibRu.Frames.CollapseExtendCheckButton.New(
         outfitCollectionFrame,
-        "CharacterPreviewCollapseExtendButton",
+        "CharacterPreview_CollapseExtendButton",
         "bag-arrow",
-        Module.Settings.CollapseButton.Size,
-        true
+        Module.Settings.CollapseButton.Size
     )
 
     characterPreviewFrame.CharacterPreviewCollapseButton = previewCollapseButton
-    outfitCollectionFrame.CharacterPreviewCollapseButton = previewCollapseButton
 
     previewCollapseButton:SetPoint(
         "TOPRIGHT",
