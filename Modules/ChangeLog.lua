@@ -34,6 +34,10 @@ CHANGELOG_ELEMENTS = {
         {type = 'text', text = [[Prevents BlizzMove from repositioning the transmog frame, instead using BetterTransmogs native functionality]], indent_level = 2},
         {type = 'heading', text = [[Added compatibility with Plumber]], level = 2, indent_level = 1},
         {type = 'text', text = [[Automatically disables Plumber's TransmogOutfitSelect when BetterTransmog is enabled.]], indent_level = 2},
+        {type = 'heading', text = [[Fixed a compatibility error with AddOn "Kibs Item Level"]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Fixed an issue where the Kibs Item Level was (strangely) causing a stack overflow within BetterTransmog]], indent_level = 2},
+        {type = 'heading', text = [[Corrected Collapse/Extend buttons to be facing the right way]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Thanks for pointing this out |cff0080ff@BornabeWylde|r and |cff0080ff@u/jeriku|r]], indent_level = 2},
     },
     ['Version 2.0.4'] = {
         {type = 'heading', text = [[Version 2.0.4]], level = 1, indent_level = 0},

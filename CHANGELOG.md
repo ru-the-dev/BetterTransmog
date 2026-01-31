@@ -9,6 +9,12 @@ Prevents BlizzMove from repositioning the transmog frame, instead using BetterTr
 ## Added compatibility with Plumber
 Automatically disables Plumber's TransmogOutfitSelect when BetterTransmog is enabled.
 
+## Fixed a compatibility error with AddOn "Kibs Item Level"
+Fixed an issue where the Kibs Item Level was (strangely) causing a stack overflow within BetterTransmog
+
+## Corrected Collapse/Extend buttons to be facing the right way
+Thanks for pointing this out `@BornabeWylde` and `@u/jeriku`
+
 # Version 2.0.4
 Quite a major update containing many requested features and improvements! As usual, thank you for your feedback and support and bug reports, if you have any, don't hesitate to open a issue on the github page!
 
