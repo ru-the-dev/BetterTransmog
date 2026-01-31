@@ -61,7 +61,7 @@ StaticPopupDialogs["BETTERTRANSMOG_RELOAD_UI"] = {
 }
 
 local function BuildPanel()
-    local accountDB = accountDBModule.DB;
+    local accountDbData = accountDBModule.DB:Get();
 
     local panel = CreateFrame("Frame", "BetterTransmogOptionsPanel", UIParent)
 
@@ -75,7 +75,7 @@ local function BuildPanel()
     subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
     subtitle:SetText("Adjust layout and behavior settings for BetterTransmog.")
 
-    local previewFrameWidthSlider = Core.Libs.LibRu.Frames.ValueSlider.New(panel, "BetterTransmog_Slider_PreviewFrameWidth", "Preview Frame Width:", characterPreviewModule.Settings.MinFrameWidth, characterPreviewModule.Settings.MaxFrameWidth, 10, accountDB.TransmogFrame, "CharacterPreviewFrameWidth", function(v) return v .. "px" end)
+    local previewFrameWidthSlider = Core.Libs.LibRu.Frames.ValueSlider.New(panel, "BetterTransmog_Slider_PreviewFrameWidth", "Preview Frame Width:", characterPreviewModule.Settings.MinFrameWidth, characterPreviewModule.Settings.MaxFrameWidth, 10, accountDbData.TransmogFrame, "CharacterPreviewFrameWidth", function(v) return v .. "px" end)
     previewFrameWidthSlider:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -40)
     previewFrameWidthSlider:AddScript("OnValueChanged", function(self, handle, newValue)
         ShowReloadDialog()
@@ -87,13 +87,13 @@ local function BuildPanel()
     minimapButtonCheckbox:SetSize(26, 26)
     minimapButtonCheckbox.Text:SetText("Show minimap button")
     minimapButtonCheckbox.Text:SetFontObject("GameFontHighlight")
-    minimapButtonCheckbox:SetChecked(not accountDB.MinimapButton.Hidden)
+    minimapButtonCheckbox:SetChecked(not accountDbData.MinimapButton.Hidden)
 
     minimapButtonCheckbox:SetScript("OnClick", function(self)
         local isChecked = self:GetChecked()
         if Core.Modules.MinimapButton then
             Core.Modules.MinimapButton:SetMinimapButtonVisible(isChecked)
-            accountDB.MinimapButton.Hidden = not isChecked
+            accountDbData.MinimapButton.Hidden = not isChecked
         end
     end)
 
@@ -103,7 +103,7 @@ local function BuildPanel()
     resetButton:SetSize(125, 25)
     resetButton:SetText("Reset Settings")
     resetButton:SetScript("OnClick", function()
-        accountDB:ResetSection({ "TransmogFrame" })
+        accountDbData:ResetSection({ "TransmogFrame" })
         ReloadUI()
     end)
 

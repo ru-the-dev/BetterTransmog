@@ -85,7 +85,8 @@ local changeLogFrame = nil;
 --- ======================================================
 
 function Module:OnInitialize()
-    local accountDB = accountDBModule.DB
+    local accountDB = accountDBModule.DB:Get()
+    
     if accountDB.LastChangeLogVersion ~= CURRENT_VERSION then
         self:ShowChangeLog();
         accountDB.LastChangeLogVersion = CURRENT_VERSION

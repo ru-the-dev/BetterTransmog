@@ -7,6 +7,8 @@ local Core = _G.BetterTransmog;
 ---@class BetterTransmog.Modules.AccountDB : LibRu.Module
 local Module = Core.Libs.LibRu.Module.New("AccountDB", Core, { Core }, false);
 
+
+---@class BetterTransmog.Modules.AccountDB.Defaults
 local DEFAULTS = {
     LastChangeLogVersion = "",
     MinimapButton = { -- for LibDbIcon
@@ -29,22 +31,29 @@ local DEFAULTS = {
             OffsetX = 0,
             OffsetY = 0,
         },
-          FrameSizeFull = {
-              Width = 1330,
-              Height = 750,
-          },
-          FrameSizeOutfit = {
-              Width = 762,
-              Height = 750,
-          }
+        FrameSizeFull = {
+            Width = 1330,
+            Height = 750,
+        },
+        FrameSizeOutfit = {
+            Width = 762,
+            Height = 750,
+        }
     }
 }
 
 function Module:OnInitialize()
-    local AccountDB = Core.Libs.LibRu.Utils.DB.CreateDatabase("BetterTransmogAccountDB", DEFAULTS)
+    local accountDB_SV = _G.BetterTransmogAccountDB;
+    if accountDB_SV == nil then
+        error("BetterTransmogAccountDB SavedVariable is missing. Please make sure it is declared in the .toc file.")
+    end
+    
+    local AccountDB = Core.Libs.LibRu.Database.Create(accountDB_SV, DEFAULTS);
+
     AccountDB:Init();
 
     Module.DB = AccountDB;
 
     self:DebugLog("AccountDB initialized.");
 end
+

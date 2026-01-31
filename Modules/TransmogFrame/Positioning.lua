@@ -21,6 +21,7 @@ local Module = Core.Libs.LibRu.Module.New(
 --- ======================================================
 ---@type BetterTransmog.Modules.TransmogFrame
 local transmogFrameModule = Core.Modules.TransmogFrame;
+local accountDBModule = Core.Modules.AccountDB;
 
 
 --- =======================================================
@@ -34,8 +35,8 @@ Module.Settings = {}
 
 
 local function GetSavedPosition(displayMode)
-    local transmogFrameDB = Core.Modules.AccountDB.DB.TransmogFrame
-
+    local transmogFrameDB = accountDBModule.DB:Get().TransmogFrame
+            
     if displayMode == transmogFrameModule.Enum.DISPLAY_MODE.OUTFIT_SWAP then
         return transmogFrameDB.FramePositionOutfit
     end
@@ -94,8 +95,6 @@ end
 function Module:SaveFramePosition(displayMode)
     --- set default to be the current display mode
     displayMode = displayMode or transmogFrameModule.DisplayMode;
-
-    
     --- skip saving if we're in the middle of applying a mode change
     if transmogFrameModule.IsApplyingMode then
         Module:DebugLog("Skipping Saving TransmogFrame position to AccountDB for display mode: " .. displayMode);

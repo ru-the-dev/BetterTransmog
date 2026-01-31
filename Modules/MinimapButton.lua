@@ -12,6 +12,9 @@ local Module = Core.Libs.LibRu.Module.New(
     false
 )
 
+local accountDBModule = Core.Modules.AccountDB;
+
+
 --- ======================================================
 --- Module Data
 --- ======================================================
@@ -52,7 +55,7 @@ function Module:OnInitialize()
         end,
     })
     
-    local db = Core.Modules.AccountDB.DB
+    local db = accountDBModule.DB:Get();
     db.MinimapButton = db.MinimapButton or {}
     
     LibDBIcon:Register("BetterTransmog", dataobj, db.MinimapButton)
@@ -70,7 +73,7 @@ function Module:SetMinimapButtonVisible(visible)
     end
     
     -- Save visibility setting
-    local db = Core.Modules.AccountDB.DB
+    local db = accountDBModule.DB:Get();
     db.MinimapButton = db.MinimapButton or {}
     db.MinimapButton.hide = not visible
 end

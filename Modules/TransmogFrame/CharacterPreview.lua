@@ -83,12 +83,16 @@ end
 
 local function CharacterPreviewFrame_UpdateWidth()
 
-    local accountDB = Core.Modules.AccountDB.DB;
+    local accountDBModule = Core:GetModule("AccountDB");
+
+    local previewWidth = (accountDBModule and accountDBModule.DB:Get().TransmogFrame.CharacterPreviewFrameWidth) 
+        or Module.Settings.MinFrameWidth
+
     local preview = Module:GetFrame()
 
     local clampedWidth = math.min(
         math.max(
-            accountDB.TransmogFrame.CharacterPreviewFrameWidth,
+            previewWidth,
             Module.Settings.MinFrameWidth
         ),
         Module.Settings.MaxFrameWidth
@@ -154,7 +158,10 @@ end
 local function SetPreviewCollapsed(collapsed)
     local preview = Module:GetFrame()
 
-    Core.Modules.AccountDB.DB.TransmogFrame.CharacterPreviewCollapsedOutfit = collapsed and true or false
+    local accountDbModule = Core:GetModule("AccountDB");
+    if accountDbModule then
+        accountDbModule.DB:Get().TransmogFrame.CharacterPreviewCollapsedOutfit = collapsed and true or false
+    end
 
     if collapsed then
         preview:Hide()
@@ -247,14 +254,20 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
             characterPreviewFrame.HideIgnoredToggle:Hide()
         end
 
+        local accountDbModule = Core:GetModule("AccountDB");
+
         if characterPreviewFrame.CharacterPreviewCollapseButton then
-                local collapsed = Core.Modules.AccountDB.DB.TransmogFrame.CharacterPreviewCollapsedOutfit
-                characterPreviewFrame.CharacterPreviewCollapseButton:SetCollapsed(collapsed)
+            local collapsed = (accountDbModule and accountDbModule.DB:Get().TransmogFrame.CharacterPreviewCollapsedOutfit)
+                or false
+
+            characterPreviewFrame.CharacterPreviewCollapseButton:SetCollapsed(collapsed)
             characterPreviewFrame.CharacterPreviewCollapseButton:Show();
             characterPreviewFrame.CharacterPreviewCollapseButton:Enable();
         end
-
-        local collapsed = Core.Modules.AccountDB.DB.TransmogFrame.CharacterPreviewCollapsedOutfit
+        
+        
+        local collapsed = (accountDbModule and accountDbModule.DB:Get().TransmogFrame.CharacterPreviewCollapsedOutfit)
+            or false
         SetPreviewCollapsed(collapsed)
     end
 end

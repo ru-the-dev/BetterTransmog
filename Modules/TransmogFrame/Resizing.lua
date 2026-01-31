@@ -32,16 +32,22 @@ Module.Settings = {}
 
 -- =======================================================
 -- Module Implementation
--- =======================================================
+-- =======================================================  
 local function GetSavedSize(displayMode)
     displayMode = displayMode or transmogFrameModule.DisplayMode
-    local transmogFrameDB = Core.Modules.AccountDB.DB.TransmogFrame
 
-    if displayMode == transmogFrameModule.Enum.DISPLAY_MODE.OUTFIT_SWAP then
-        return transmogFrameDB.FrameSizeOutfit
+    ---@type BetterTransmog.Modules.AccountDB|nil
+    local accountDBModule = Core:GetModule("AccountDB")
+ 
+    if not accountDBModule then
+        return nil
     end
 
-    return transmogFrameDB.FrameSizeFull
+    if displayMode == transmogFrameModule.Enum.DISPLAY_MODE.OUTFIT_SWAP then
+        return accountDBModule.DB:Get().TransmogFrame.FrameSizeOutfit
+    end
+
+    return accountDBModule.DB:Get().TransmogFrame.FrameSizeFull
 end
 
 local function GetDefaultOutfitWidth()
@@ -151,7 +157,7 @@ function Module:OnInitialize()
 
         ---@type BetterTransmog.Modules.TransmogFrame.WardrobeCollection|nil
         local wardrobeCollectionModule = transmogFrameModule:GetModule("WardrobeCollection")
-
+        
         if wardrobeCollectionModule then
             wardrobeCollectionModule:UpdateSituationTabMinWidth()
         end
