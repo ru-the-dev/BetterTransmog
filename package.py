@@ -18,6 +18,7 @@ EXCLUDES = {
     ".gitignore",
     ".gitattributes",
     ".vscode",
+    ".venv",
     "dist",
     "*.code-workspace",
     "*.py",
