@@ -1,5 +1,7 @@
+local addon, ns = ...;
+
 ---@class BetterTransmog
-local Core = _G.BetterTransmog;
+local Core = ns.Core;
 
 --- @class BetterTransmog.Modules.Compatibility.Plumber : LibRu.Module
 local Module = Core.Libs.LibRu.Module.New("Compatibility.Plumber", Core, { Core }, true);

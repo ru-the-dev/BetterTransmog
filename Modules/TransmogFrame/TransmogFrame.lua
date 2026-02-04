@@ -1,9 +1,11 @@
+local addon, ns = ...;
+
 -- =======================================================
 -- Module dependency validation + Definition
 -- =======================================================
 
 ---@class BetterTransmog
-local Core = _G.BetterTransmog;
+local Core = ns.Core;
 
 
 --- @class BetterTransmog.Modules.TransmogFrame : LibRu.Module

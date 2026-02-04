@@ -1,10 +1,13 @@
 -- Initialization and setup logic
+local addon, ns = ...
+
 --- @type LibRu
 local LibRu = LibStub:GetLibrary("LibRu");
 
 if not LibRu then
     error("BetterTransmog dependency missing: LibRu");
 end
+
 
 ---@class BetterTransmog : LibRu.Module
 ---@field Modules {AccountDB: BetterTransmog.Modules.AccountDB, ChangeLog: BetterTransmog.Modules.ChangeLog, MinimapButton: BetterTransmog.Modules.MinimapButton, Settings: BetterTransmog.Modules.Settings, TransmogFrame: BetterTransmog.Modules.TransmogFrame}
@@ -45,5 +48,5 @@ function Core:PrintAddonMessage(msg)
     print("[" .. self:GetFullName(true) .. "]:|r " .. tostring(msg));
 end
 
-_G.BetterTransmog = Core;
+ns.Core = Core;
 

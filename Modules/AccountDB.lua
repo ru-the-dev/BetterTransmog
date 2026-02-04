@@ -1,8 +1,9 @@
+local addon, ns = ...;
+
 -- SavedVariables: BetterTransmogAccountDB
 
 ---@class BetterTransmog
-local Core = _G.BetterTransmog;
-
+local Core = ns.Core;
 
 ---@class BetterTransmog.Modules.AccountDB : LibRu.Module
 local Module = Core.Libs.LibRu.Module.New("AccountDB", Core, { Core }, false);

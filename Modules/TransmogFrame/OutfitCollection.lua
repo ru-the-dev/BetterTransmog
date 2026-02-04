@@ -1,9 +1,11 @@
+local addon, ns = ...;
+
 -- =======================================================
 -- Module dependency validation + Definition
 -- =======================================================
 
 ---@class BetterTransmog
-local Core = _G.BetterTransmog;
+local Core = ns.Core;
 
 --- @class BetterTransmog.Modules.TransmogFrame.OutfitCollection : LibRu.Module
 local Module = Core.Libs.LibRu.Module.New(
@@ -91,7 +93,7 @@ local function AddCollapseButton()
 
     outfitCollectionCollapseButton:AddScript("OnClick", function (self)
         local checked = self:GetChecked();
-        local outfitCollectionFrame = _G.TransmogFrame.OutfitCollection;
+        local outfitCollectionFrame = Module:GetFrame();
         
         if (checked) then
             outfitCollectionFrame:Hide();

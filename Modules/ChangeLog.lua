@@ -1,5 +1,7 @@
+local addon, ns = ...;
+
 ---@class BetterTransmog
-local Core = _G.BetterTransmog;
+local Core = ns.Core;
 
 ---@class BetterTransmog.Modules.ChangeLog : LibRu.Module
 local Module = Core.Libs.LibRu.Module.New(
