@@ -140,6 +140,10 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
             outfitCollectionFrame.SaveOutfitButton:Hide();
         end
 
+        if outfitCollectionFrame.UsableDiscountText then 
+            outfitCollectionFrame.UsableDiscountText:Hide();
+        end
+
         local outfitList = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(outfitCollectionFrame, "OutfitList")
         if outfitList then
             local offset = Module.Settings.OutfitListOffsets.Compact
@@ -166,6 +170,11 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
         if outfitCollectionFrame.SaveOutfitButton then
             outfitCollectionFrame.SaveOutfitButton:Show();
         end
+        
+        if outfitCollectionFrame.UsableDiscountText then 
+            outfitCollectionFrame.UsableDiscountText:SetShown(C_TransmogOutfitInfo.IsUsableDiscountAvailable());
+        end
+        
 
         local outfitList = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(outfitCollectionFrame, "OutfitList")
         if outfitList then

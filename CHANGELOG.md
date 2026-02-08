@@ -1,3 +1,7 @@
+# Version 2.0.6
+
+## Hidden the "OutfitDiscountText" when in outfit swap mode.
+
 # Version 2.0.5
 
 ## Added a setting to hide the minimap button
