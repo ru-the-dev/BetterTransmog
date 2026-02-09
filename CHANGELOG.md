@@ -1,8 +1,12 @@
 # Version 2.0.6
 
-## Hidden the "OutfitDiscountText" when in outfit swap mode.
+## Hide OutfitDiscountText in Outfit Swap Mode
+The `OutfitDiscountText` is now hidden while using Outfit Swap Mode to prevent visual clutter and overlapping text in the outfit preview panel.
 
-## Added a button that lets you link your currently selected outfit in chat
+## Added "Link Outfit" button
+Added a new "Link Outfit" button which inserts a link to your currently selected (pending) outfit into the active chat edit box, making it quick and easy to share outfits with others.
+This is accessible from both the hotswap character preview and the full transmog character preview.
+Requested by @Helgrymm
 
 
 # Version 2.0.5
