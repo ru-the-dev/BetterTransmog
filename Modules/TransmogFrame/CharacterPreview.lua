@@ -256,10 +256,22 @@ local function AddLinkOutfitButton()
         local selectedTransmogInfoList = characterPreviewFrame.ModelScene:GetPlayerActor():GetItemTransmogInfoList()
 
         local hyperlink = C_TransmogCollection.GetCustomSetHyperlinkFromItemTransmogInfoList(selectedTransmogInfoList);
-        
-        Module:DebugLog("Generated hyperlink: " .. hyperlink)
-        
-        Core.Libs.LibRu.Debug.DumpToScrollFrame(selectedTransmogInfoList, "Selected Transmog Info List") -- for debugging
+
+        if hyperlink then
+            local activeEditBox = ChatFrameUtil.GetActiveWindow()
+            if activeEditBox then
+                ChatFrameUtil.InsertLink(hyperlink)
+            else
+                local lastActiveEditBox = ChatFrameUtil.GetLastActiveWindow()
+                if lastActiveEditBox and lastActiveEditBox:IsShown() then
+                    ChatFrameUtil.ActivateChat(lastActiveEditBox)
+                    ChatFrameUtil.InsertLink(hyperlink)
+                else
+                    ChatFrameUtil.OpenChat(hyperlink)
+                end
+            end
+        end
+    
     end)
 end
 
