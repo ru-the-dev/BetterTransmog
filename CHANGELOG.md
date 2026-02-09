@@ -2,6 +2,9 @@
 
 ## Hidden the "OutfitDiscountText" when in outfit swap mode.
 
+## Added a button that lets you link your currently selected outfit in chat
+
+
 # Version 2.0.5
 
 ## Added a setting to hide the minimap button

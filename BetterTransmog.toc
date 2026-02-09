@@ -1,6 +1,6 @@
 ## Interface: 120000, 120001
 ## Title: BetterTransmog
-## Version: 2.0.5
+## Version: 2.0.6
 ## Author: ru_the_dev (Pookie)
 ## Notes: Enhances the Transmogrification with QoL features
 ## X-Category: Transmog

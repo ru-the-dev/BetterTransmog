@@ -14,7 +14,7 @@ local Module = Core.Libs.LibRu.Module.New(
     { 
         Core.Modules.TransmogFrame 
     },
-    false
+    true
 );
 
 Module.IsResetCameraHooked = false;
@@ -38,6 +38,13 @@ Module.Settings = {
     MaxCameraZoom = 7.5,
     DefaultCameraZoom = 5.0,
     HiddenFrameWidth = 0.1,
+    LinkOutfitButton = {
+        Width = 110,
+        Height = 22,
+        OffsetX = 10,
+        OffsetY = 10,
+        FrameStrata = "HIGH",
+    },
     CollapseButton = {
         Size = 30,
         OffsetX = 5,
@@ -132,6 +139,9 @@ local function SetSlotButtonsVisible(visible)
 end
 
 local previewCollapseButton = nil
+local previewLinkOutfitButton = nil
+
+
 
 local function GetOutfitCollectionWidth()
     local outfitCollection = transmogFrameModule:GetModule("OutfitCollection")
@@ -217,6 +227,42 @@ local function AddCollapseButton()
     previewCollapseButton:Hide(); -- hide by default
 end
 
+local function AddLinkOutfitButton()
+    local characterPreviewFrame = Module:GetFrame()
+
+    previewLinkOutfitButton = CreateFrame(
+        "Button",
+        "BetterTransmog_CharacterPreview_LinkOutfitButton",
+        characterPreviewFrame,
+        "UIPanelButtonTemplate"
+    )
+
+    characterPreviewFrame.LinkOutfitButton = previewLinkOutfitButton
+
+    previewLinkOutfitButton:SetSize(Module.Settings.LinkOutfitButton.Width, Module.Settings.LinkOutfitButton.Height)
+    previewLinkOutfitButton:SetText("Link Outfit")
+    previewLinkOutfitButton:SetFrameStrata(Module.Settings.LinkOutfitButton.FrameStrata)
+
+    previewLinkOutfitButton:SetPoint(
+        "BOTTOMLEFT",
+        characterPreviewFrame,
+        "BOTTOMLEFT",
+        Module.Settings.LinkOutfitButton.OffsetX,
+        Module.Settings.LinkOutfitButton.OffsetY
+    )
+
+
+    previewLinkOutfitButton:SetScript("OnClick", function()
+        local selectedTransmogInfoList = characterPreviewFrame.ModelScene:GetPlayerActor():GetItemTransmogInfoList()
+
+        local hyperlink = C_TransmogCollection.GetCustomSetHyperlinkFromItemTransmogInfoList(selectedTransmogInfoList);
+        
+        Module:DebugLog("Generated hyperlink: " .. hyperlink)
+        
+        Core.Libs.LibRu.Debug.DumpToScrollFrame(selectedTransmogInfoList, "Selected Transmog Info List") -- for debugging
+    end)
+end
+
 ---@param eventFrame Frame
 ---@param handle any
 ---@param displayMode string
@@ -281,6 +327,7 @@ function Module:OnInitialize()
     CharacterPreviewFrame_UpdateWidth();
 
     AddCollapseButton();
+    AddLinkOutfitButton();
 
     -- hook on show, fix camera every time, show resets the camera settings
     transmogFrameModule:GetFrame():HookScript("OnShow", function(self)
