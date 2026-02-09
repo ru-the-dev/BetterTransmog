@@ -6,17 +6,27 @@ $ErrorActionPreference = 'Stop'
 
 $activated = $false
 $venvCandidates = @('.venv\Scripts\Activate.ps1','venv\Scripts\Activate.ps1')
-foreach ($candidate in $venvCandidates) {
-	if (Test-Path $candidate) {
-		Write-Host "Activating virtual environment: $candidate"
-		. $candidate
-		$activated = $true
-		break
-	}
-}
 
-if (-not $activated) {
-	Write-Host "No virtual environment found (looked for .venv and venv). Continuing without activation." -ForegroundColor Yellow
+# If a virtual environment is already active (venv or conda), skip activation.
+if ($env:VIRTUAL_ENV -or $env:CONDA_PREFIX -or $env:CONDA_DEFAULT_ENV) {
+	$activeEnv = $env:VIRTUAL_ENV
+	if (-not $activeEnv) { $activeEnv = $env:CONDA_PREFIX }
+	if (-not $activeEnv) { $activeEnv = $env:CONDA_DEFAULT_ENV }
+	Write-Host "Virtual environment already active: $activeEnv" -ForegroundColor Yellow
+	$activated = $true
+} else {
+	foreach ($candidate in $venvCandidates) {
+		if (Test-Path $candidate) {
+			Write-Host "Activating virtual environment: $candidate"
+			. $candidate
+			$activated = $true
+			break
+		}
+	}
+
+	if (-not $activated) {
+		Write-Host "No virtual environment found (looked for .venv and venv). Continuing without activation." -ForegroundColor Yellow
+	}
 }
 
 Write-Host "Running changelog updater..."
