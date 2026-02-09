@@ -28,6 +28,13 @@ local ChangeLogMixin = Core.Libs.LibRu.Frames.Mixins.ChangeLogFrameMixin;
 local CURRENT_VERSION = C_AddOns.GetAddOnMetadata(Core.Name, "Version")
 
 CHANGELOG_ELEMENTS = {
+    ['Version 2.0.6'] = {
+        {type = 'heading', text = [[Version 2.0.6]], level = 1, indent_level = 0},
+        {type = 'heading', text = [[Hide OutfitDiscountText in Outfit Swap Mode]], level = 2, indent_level = 1},
+        {type = 'text', text = [[The |cff0080ffOutfitDiscountText|r is now hidden while using Outfit Swap Mode to prevent visual clutter and overlapping text in the outfit preview panel.]], indent_level = 2},
+        {type = 'heading', text = [[Added "Link Outfit" button]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Added a new "Link Outfit" button which inserts a link to your currently selected (pending) outfit into the active chat edit box, making it quick and easy to share outfits with others.|n|nThis is accessible from both the hotswap character preview and the full transmog character preview.|n|nRequested by @Helgrymm]], indent_level = 2},
+    },
     ['Version 2.0.5'] = {
         {type = 'heading', text = [[Version 2.0.5]], level = 1, indent_level = 0},
         {type = 'heading', text = [[Added a setting to hide the minimap button]], level = 2, indent_level = 1},
