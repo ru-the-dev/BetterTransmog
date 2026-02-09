@@ -64,12 +64,17 @@ def copy_tree(src: Path, dst: Path) -> None:
             # Ensure debug mode is disabled in all Lua files
             if item.name.endswith(".lua"):
                 content = target.read_text(encoding="utf-8")
-                # Replace LibRu.Module.New(..., true) with LibRu.Module.New(..., false)
-                content = re.sub(
-                    r'LibRu\.Module\.New\(([^,]+),\s*([^,]+),\s*([^,]+),\s*true\)',
-                    r'LibRu.Module.New(\1, \2, \3, false)',
-                    content
-                )
+
+                # Multiline-safe replacement for LibRu.Module.New(..., true) -> ..., false
+                def _replace_module_new(match):
+                    inner = match.group(1)
+                    new_inner, n = re.subn(r',\s*true\s*$', ', false', inner, flags=re.S)
+                    if n:
+                        return 'LibRu.Module.New(' + new_inner + ')'
+                    return match.group(0)
+
+                content = re.sub(r'LibRu\.Module\.New\((.*?)\)', _replace_module_new, content, flags=re.S)
+
                 target.write_text(content, encoding="utf-8")
 
 
