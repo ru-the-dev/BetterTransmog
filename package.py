@@ -22,7 +22,8 @@ EXCLUDES = {
     "dist",
     "*.code-workspace",
     "*.py",
-    "*AGENTS.md"
+    "*AGENTS.md",
+    "*.ps1"
 }
 
 
