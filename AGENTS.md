@@ -85,6 +85,11 @@ local accountDBModule = Core.Modules.AccountDB;
 - Keep formatting consistent with surrounding code.
 - Avoid non-ASCII characters unless the file already uses them.
 
+## Reference Source
+
+- When looking up Blizzard UI source, use Townlong Yak's live FrameXML: https://www.townlong-yak.com/framexml/live/
+- Prefer matching the current build and verify APIs there before proposing changes.
+
 ## Commit Guidance
 
 ## Contact
