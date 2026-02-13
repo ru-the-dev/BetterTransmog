@@ -35,16 +35,17 @@ Module.Settings = {
     }
 }
 
-Module.DisplayMode = nil
-
 Module.Enum = {}
 
+---@enum BetterTransmog.Modules.TransmogFrame.DisplayMode
 Module.Enum.DISPLAY_MODE = {
     FULL = "full",
     OUTFIT_SWAP = "outfit_swap"
 }
 
-Module.IsApplyingMode = false
+---@type BetterTransmog.Modules.TransmogFrame.DisplayMode|string
+local activeDisplayMode = nil
+local isApplyingDisplayMode = false
 
 
 ---@param displayMode string
@@ -60,8 +61,8 @@ end
 
 function Module:OnInitialize()
     -- Set initial display mode to FULL
-    self.DisplayMode = self.Enum.DISPLAY_MODE.FULL
-    Module:LogInfo("Initial display mode set to: " .. self.DisplayMode)
+    activeDisplayMode = self.Enum.DISPLAY_MODE.FULL
+    Module:LogInfo("Initial display mode set to: " .. activeDisplayMode)
     
     -- Hook TRANSMOGRIFY_OPEN to force FULL mode when transmog NPC opens the frame
     Core.EventFrame:AddEvent("TRANSMOGRIFY_OPEN", function()
@@ -71,9 +72,9 @@ function Module:OnInitialize()
 end
 
 --- Sets the display mode and applies all associated configuration
----@param displayMode? string
+---@param displayMode BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 function Module:SetDisplayMode(displayMode)
-    displayMode = displayMode or self.DisplayMode;
+    displayMode = displayMode or activeDisplayMode;
 
     if not displayMode then
         Module:LogError("Invalid display mode - nil provided")
@@ -81,12 +82,12 @@ function Module:SetDisplayMode(displayMode)
     end
 
     -- early out if already in desired mode, just restore positioning
-    if self.DisplayMode == displayMode then return end
+    if activeDisplayMode == displayMode then return end
 
     local transmogFrame = self:GetFrame()
 
     -- if the user is still interacting with the transmog NPC, then close the interaction first.
-    if transmogFrame and transmogFrame:IsShown() and self.DisplayMode == self.Enum.DISPLAY_MODE.FULL then
+    if transmogFrame and transmogFrame:IsShown() and activeDisplayMode == self.Enum.DISPLAY_MODE.FULL then
         C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Transmogrifier)
         -- then just re-run this function
         self:SetDisplayMode(displayMode)
@@ -97,13 +98,13 @@ function Module:SetDisplayMode(displayMode)
     local positioning = self:GetModule("Positioning")
     
     if positioning and positioning.SaveFramePosition then
-        positioning:SaveFramePosition(self.DisplayMode)
+        positioning:SaveFramePosition(activeDisplayMode)
     end
 
     ---@type BetterTransmog.Modules.TransmogFrame.Resizing
     local resizing = self:GetModule("Resizing")
     if resizing and resizing.SaveFrameSize then
-        resizing:SaveFrameSize(self.DisplayMode)
+        resizing:SaveFrameSize(activeDisplayMode)
     end
 
     self.IsApplyingMode = true;
@@ -111,7 +112,7 @@ function Module:SetDisplayMode(displayMode)
     if transmogFrame and transmogFrame:IsShown() then
         -- hide frame first to avoid jarring movement
         transmogFrame:SetAlpha(0)
-        self.DisplayMode = displayMode
+        activeDisplayMode = displayMode
         Core.EventFrame:FireScript("OnTransmogFrameDisplayModeChanged", displayMode)
 
         -- restore positioning
@@ -130,16 +131,16 @@ function Module:SetDisplayMode(displayMode)
     end
 
 
-    self.DisplayMode = displayMode
+    activeDisplayMode = displayMode
     Core.EventFrame:FireScript("OnTransmogFrameDisplayModeChanged", displayMode)
     self.IsApplyingMode = false;
 end
 
 --- Opens the transmog frame in a specific display mode
----@param displayMode string
+---@param displayMode BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 function Module:ToggleFrameInMode(displayMode)
     local transmogFrame = self:GetFrame()
-    if transmogFrame and transmogFrame:IsShown() and self.DisplayMode == displayMode then
+    if transmogFrame and transmogFrame:IsShown() and activeDisplayMode == displayMode then
         HideUIPanel(transmogFrame)
         return
     end
@@ -147,8 +148,6 @@ function Module:ToggleFrameInMode(displayMode)
     self:SetDisplayMode(displayMode)
     ShowUIPanel(transmogFrame)
 end
-
-
 
 
 function Module:GetStaticSizedChildrenWidth()
@@ -295,4 +294,13 @@ function Module:SetDefaultResizeBounds()
     if wardrobeCollectionModule then
         wardrobeCollectionModule:SetCollectionFrameMinWidth();
     end
+end
+
+
+function Module:GetActiveDisplayMode()
+    return activeDisplayMode
+end
+
+function Module:IsApplyingDisplayMode()
+    return isApplyingDisplayMode
 end

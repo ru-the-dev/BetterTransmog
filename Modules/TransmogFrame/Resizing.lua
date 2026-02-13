@@ -38,8 +38,9 @@ Module.Settings = {}
 -- =======================================================
 -- Module Implementation
 -- =======================================================  
+---@param displayMode? BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 local function GetSavedSize(displayMode)
-    displayMode = displayMode or transmogFrameModule.DisplayMode
+    displayMode = displayMode or transmogFrameModule:GetActiveDisplayMode();
 
     ---@type BetterTransmog.Modules.AccountDB|nil
     local accountDBModule = Core:GetModule("AccountDB")
@@ -99,12 +100,13 @@ local function RestoreSavedSize(displayMode)
     transmogFrameModule:GetFrame():SetSize(width, height)
 end
 
+---@param displayMode? BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 local function SaveFrameSize(displayMode)
-    displayMode = displayMode or transmogFrameModule.DisplayMode
+    displayMode = displayMode or transmogFrameModule:GetActiveDisplayMode()
 
     Module:LogInfo("Saving TransmogFrame size to AccountDB for display mode: " .. tostring(displayMode))
-
-    if transmogFrameModule.IsApplyingMode then
+    
+    if transmogFrameModule:IsApplyingDisplayMode() then
         Module:LogInfo("Skipping size save while applying display mode.")
         return
     end
@@ -129,7 +131,7 @@ end
 
 ---@param eventFrame Frame
 ---@param handle any
----@param displayMode string
+---@param displayMode BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 local function ApplyDisplayMode(eventFrame, handle, displayMode)
     if not transmogFrameModule:IsValidDisplayMode(displayMode) then
         Module:LogWarning("UnimplmentedDisplayMode: " .. tostring(displayMode))
@@ -185,6 +187,7 @@ function Module:AddResizeButton()
     resizeButton:AddScript("OnMouseUp", function()
         SaveFrameSize()
     end)
+    
     ---@class TransmogFrame : Frame
     local transmogFrame = transmogFrameModule:GetFrame()
     transmogFrame.BT_ResizeButton = resizeButton

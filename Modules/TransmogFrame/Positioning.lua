@@ -75,11 +75,11 @@ function Module:OnInitialize()
     end)
 end
 
----@param displayMode? string display mode to restore for, if nil, will take the current transmogFrameModule displaymode
+---@param displayMode? BetterTransmog.Modules.TransmogFrame.DisplayMode|string display mode to restore for, if nil, will take the current transmogFrameModule displaymode
 function Module:RestoreSavedPosition(displayMode)
 
     --- set default to be the current display mode
-    displayMode = displayMode or transmogFrameModule.DisplayMode;
+    displayMode = displayMode or transmogFrameModule:GetActiveDisplayMode();
 
     Module:LogInfo("Restoring TransmogFrame position from AccountDB for display mode: " .. displayMode);
     -- restore position from account DB
@@ -96,12 +96,12 @@ function Module:RestoreSavedPosition(displayMode)
     transmogFrame:SetPoint(savedPosition.Point, _G[savedPosition.RelativeTo], savedPosition.RelativePoint, savedPosition.OffsetX, savedPosition.OffsetY)
 end
 
----@param displayMode? string display mode to restore for, if nil, will take the current transmogFrameModule displaymode
+---@param displayMode? BetterTransmog.Modules.TransmogFrame.DisplayMode|string display mode to restore for, if nil, will take the current transmogFrameModule displaymode
 function Module:SaveFramePosition(displayMode)
     --- set default to be the current display mode
-    displayMode = displayMode or transmogFrameModule.DisplayMode;
+    displayMode = displayMode or transmogFrameModule:GetActiveDisplayMode();
     --- skip saving if we're in the middle of applying a mode change
-    if transmogFrameModule.IsApplyingMode then
+    if transmogFrameModule:IsApplyingDisplayMode() then
         Module:LogInfo("Skipping Saving TransmogFrame position to AccountDB for display mode: " .. displayMode);
         return 
     end;
