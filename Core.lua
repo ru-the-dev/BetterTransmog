@@ -21,20 +21,6 @@ Core.Libs.LibRu = LibRu;
 -- Create a Global event frame
 Core.EventFrame = LibRu.Frames.EventFrame.New(CreateFrame("Frame"));
 
-
--- -- listen to addon messages for debugging if debug is enabled
--- if Core.Debug == true then
---     Core.EventFrame:AddEvent("CHAT_MSG_ADDON", function(self, handle, event, prefix, message, channel, sender, target, zoneChannelID, localID, name, instanceID)
---         Core:DebugLog(string.format(
---             "Addon msg [%s] %s -> %s: %s",
---             tostring(prefix),
---             tostring(sender),
---             tostring(channel),
---             tostring(message)
---         ))
---     end)
--- end
-
 Core.EventFrame:AddEvent("ADDON_LOADED", function (self, handle, event, addonName)
     if addonName ~= Core:GetFullName() then return end
 

@@ -86,7 +86,7 @@ end
 local function RestoreSavedSize(displayMode)
     displayMode = displayMode or transmogFrameModule.DisplayMode
 
-    Module:DebugLog("Restoring TransmogFrame size from AccountDB for display mode: " .. tostring(displayMode))
+    Module:LogInfo("Restoring TransmogFrame size from AccountDB for display mode: " .. tostring(displayMode))
 
     -- restore size from account DB
     local savedSize = GetSavedSize(displayMode)
@@ -99,10 +99,10 @@ end
 local function SaveFrameSize(displayMode)
     displayMode = displayMode or transmogFrameModule.DisplayMode
 
-    Module:DebugLog("Saving TransmogFrame size to AccountDB for display mode: " .. tostring(displayMode))
+    Module:LogInfo("Saving TransmogFrame size to AccountDB for display mode: " .. tostring(displayMode))
 
     if transmogFrameModule.IsApplyingMode then
-        Module:DebugLog("Skipping size save while applying display mode.")
+        Module:LogInfo("Skipping size save while applying display mode.")
         return
     end
 
@@ -129,7 +129,7 @@ end
 ---@param displayMode string
 local function ApplyDisplayMode(eventFrame, handle, displayMode)
     if not transmogFrameModule:IsValidDisplayMode(displayMode) then
-        Module:DebugLog("UnimplmentedDisplayMode: " .. tostring(displayMode))
+        Module:LogWarning("UnimplmentedDisplayMode: " .. tostring(displayMode))
         return
     end
 
@@ -143,7 +143,7 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
 end
 
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes.")
+    Module:LogInfo("Applying changes.")
 
     -- restore size for the first time opening
     RestoreSavedSize();
@@ -155,7 +155,7 @@ function Module:OnInitialize()
 
     -- hook on situations show to adjust width if needed
     transmogFrameModule:GetFrame().WardrobeCollection.TabContent.SituationsFrame:HookScript("OnShow", function(self)
-        Module:DebugLog("Situations tab shown, adjusting width if needed.")
+        Module:LogInfo("Situations tab shown, adjusting width if needed.")
 
         ---@type BetterTransmog.Modules.TransmogFrame.WardrobeCollection|nil
         local wardrobeCollectionModule = transmogFrameModule:GetModule("WardrobeCollection")
@@ -168,7 +168,7 @@ end
 
 function Module:AddResizeButton()
     if transmogFrameModule:GetFrame().BT_ResizeButton then
-        Module:DebugLog("Resize button already exists, skipping creation.")
+        Module:LogInfo("Resize button already exists, skipping creation.")
         return
     end
 

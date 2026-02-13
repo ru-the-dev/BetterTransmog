@@ -65,7 +65,7 @@ local function CharacterPreviewFrame_FixCamera()
     local camera = modelScene:GetActiveCamera();
 
     if (not camera) then
-        Module:DebugLog("No active camera found in CharacterPreview ModelScene.");
+        Module:LogWarning("No active camera found in CharacterPreview ModelScene.");
         return
     end
 
@@ -107,7 +107,7 @@ local function CharacterPreviewFrame_UpdateWidth()
         Module.Settings.MaxFrameWidth
     )
 
-    Module:DebugLog("Setting CharacterPreview frame width to " .. clampedWidth)
+    Module:LogInfo("Setting CharacterPreview frame width to " .. clampedWidth)
 
     preview:SetWidth(clampedWidth)
     return clampedWidth
@@ -196,7 +196,7 @@ local function AddCollapseButton()
     )
 
     if (not transmogFrame or not characterPreviewFrame or not outfitCollectionFrame) then
-        Module:DebugLog("TransmogFrame not found, cannot add CharacterPreview collapse button.")
+        Module:LogWarning("TransmogFrame not found, cannot add CharacterPreview collapse button.")
         return
     end
 
@@ -280,13 +280,13 @@ end
 ---@param displayMode string
 local function ApplyDisplayMode(eventFrame, handle, displayMode)
     if not transmogFrameModule:IsValidDisplayMode(displayMode) then
-        Module:DebugLog("UnimplmentedDisplayMode: " .. tostring(displayMode))
+        Module:LogWarning("UnimplmentedDisplayMode: " .. tostring(displayMode))
         return
     end
 
     local characterPreviewFrame = Module:GetFrame();
     if not characterPreviewFrame then
-        Module:DebugLog("characterPreviewFrame frame not found, cannot adjust for display mode change.");
+        Module:LogWarning("characterPreviewFrame frame not found, cannot adjust for display mode change.");
         return
     end
 
@@ -304,7 +304,7 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
             characterPreviewFrame.CharacterPreviewCollapseButton:Disable();
         end
     elseif displayMode == transmogFrameModule.Enum.DISPLAY_MODE.OUTFIT_SWAP then
-        Module:DebugLog("Showing characterPreviewFrame frame for OUTFIT_SWAP display mode.");
+        Module:LogInfo("Showing characterPreviewFrame frame for OUTFIT_SWAP display mode.");
         characterPreviewFrame:Show();
         SetSlotButtonsVisible(false)
 
@@ -331,7 +331,7 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
 end
 
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes.")
+    Module:LogInfo("Applying changes.")
 
     Module:FixAnchors();
     
@@ -365,7 +365,6 @@ function Module:FixAnchors()
 
     local characterPreviewFrame = Module:GetFrame();
 
-    Module:DebugLog(outfitCollectionFrame)
     characterPreviewFrame:ClearAllPoints()
     characterPreviewFrame:SetPoint("TOPLEFT", outfitCollectionFrame, "TOPRIGHT")
     characterPreviewFrame:SetPoint("BOTTOMLEFT", outfitCollectionFrame, "BOTTOMRIGHT")

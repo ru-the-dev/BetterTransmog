@@ -48,7 +48,7 @@ end
 
 
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes.")
+    Module:LogInfo("Applying changes.")
 
     self:RestoreSavedPosition();
 
@@ -78,7 +78,7 @@ function Module:RestoreSavedPosition(displayMode)
     --- set default to be the current display mode
     displayMode = displayMode or transmogFrameModule.DisplayMode;
 
-    Module:DebugLog("Restoring TransmogFrame position from AccountDB for display mode: " .. displayMode);
+    Module:LogInfo("Restoring TransmogFrame position from AccountDB for display mode: " .. displayMode);
     -- restore position from account DB
     local savedPosition = GetSavedPosition(displayMode);
     local transmogFrame = transmogFrameModule:GetFrame();
@@ -99,7 +99,7 @@ function Module:SaveFramePosition(displayMode)
     displayMode = displayMode or transmogFrameModule.DisplayMode;
     --- skip saving if we're in the middle of applying a mode change
     if transmogFrameModule.IsApplyingMode then
-        Module:DebugLog("Skipping Saving TransmogFrame position to AccountDB for display mode: " .. displayMode);
+        Module:LogInfo("Skipping Saving TransmogFrame position to AccountDB for display mode: " .. displayMode);
         return 
     end;
 
@@ -107,7 +107,7 @@ function Module:SaveFramePosition(displayMode)
     local centerX, centerY = transmogFrame:GetCenter()
     if not centerX or not centerY then return end
 
-    Module:DebugLog("Saving TransmogFrame position to AccountDB for display mode: " .. displayMode);
+    Module:LogInfo("Saving TransmogFrame position to AccountDB for display mode: " .. displayMode);
 
 
     local frameScale = transmogFrame:GetEffectiveScale()

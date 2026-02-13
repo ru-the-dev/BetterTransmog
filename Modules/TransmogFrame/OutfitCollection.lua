@@ -67,7 +67,7 @@ local function AddCollapseButton()
     local characterPreviewFrame = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(transmogFrame, "CharacterPreview");
 
     if (not transmogFrame or not characterPreviewFrame) then
-        Module:DebugLog("TransmogFrame not found, cannot add OutfitCollection collapse button.");
+        Module:LogWarning("TransmogFrame not found, cannot add OutfitCollection collapse button.");
         return
     end
 
@@ -111,7 +111,7 @@ end
 ---@param displayMode string
 local function ApplyDisplayMode(eventFrame, handle, displayMode)
     if not transmogFrameModule:IsValidDisplayMode(displayMode) then
-        Module:DebugLog("UnimplmentedDisplayMode: " .. tostring(displayMode))
+        Module:LogWarning("UnimplmentedDisplayMode: " .. tostring(displayMode))
         return
     end
 
@@ -188,7 +188,7 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
 end
 
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes.")
+    Module:LogInfo("Applying changes.")
 
     Module:FixAnchors();
 

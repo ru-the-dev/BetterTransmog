@@ -49,7 +49,7 @@ local function GetOneViewedPagedContentFrameLayoutSignature(pagedContentFrame)
     -- get the first view frame
     local view = pagedContentFrame.ViewFrames and pagedContentFrame.ViewFrames[1]
     if not view then 
-        Module:DebugLog("No view frame found on paged content frame.")
+        Module:LogInfo("No view frame found on paged content frame.")
         return nil
     end
 
@@ -62,21 +62,21 @@ local function GetOneViewedPagedContentFrameLayoutSignature(pagedContentFrame)
     -- find the first visible element frame
     local element = GetFirstVisibleElementFrame(view)
     if not element then
-        Module:DebugLog("No visible element frame found in view.")
+        Module:LogWarning("No visible element frame found in view.")
         return nil
     end
 
     -- get element dimensions
     local ew, eh = element:GetWidth(), element:GetHeight()
     if ew <= 0 or eh <= 0 then
-        Module:DebugLog("Element has invalid dimensions: " .. tostring(ew) .. "x" .. tostring(eh))
+        Module:LogWarning("Element has invalid dimensions: " .. tostring(ew) .. "x" .. tostring(eh))
         return nil
     end
 
     -- get view dimensions
     local vw, vh = view:GetWidth(), view:GetHeight()
     if vw <= 0 or vh <= 0 then
-        Module:DebugLog("View has invalid dimensions: " .. tostring(vw) .. "x" .. tostring(vh))
+        Module:LogWarning("View has invalid dimensions: " .. tostring(vw) .. "x" .. tostring(vh))
         return nil
     end
 
@@ -112,7 +112,7 @@ local function UpdateActiveTabLayout()
     local tabId = wardrobeCollectionFrame:GetTab()
 
     if not tabId then
-        Module:DebugLog("No active tab ID found on WardrobeCollectionFrame.")
+        Module:LogWarning("No active tab ID found on WardrobeCollectionFrame.")
         return
     end
 
@@ -128,11 +128,11 @@ local function UpdateActiveTabLayout()
 
             -- get the layout signature (rows x columns)
             local sig = GetOneViewedPagedContentFrameLayoutSignature(paged)
-            Module:DebugLog("Calculated layout signature: " .. tostring(sig))
+            Module:LogInfo("Calculated layout signature: " .. tostring(sig))
             -- if the signature has changed from the old layout, update layouts
             if sig and paged.BT_LayoutSignature ~= sig then
                 -- store new signature on the frame
-                Module:DebugLog("Layout signature changed to " .. sig .. ", updating layouts.")
+                Module:LogInfo("Layout signature changed to " .. sig .. ", updating layouts.")
                 -- update layouts
                 paged:UpdateLayouts()
 
@@ -143,7 +143,7 @@ local function UpdateActiveTabLayout()
 end
 
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes.")
+    Module:LogInfo("Applying changes.")
 
     -- hook size changed to update layout
     wardrobeCollectionModule:GetFrame():HookScript("OnSizeChanged", function()

@@ -64,13 +64,13 @@ Module.Settings = {
 ---@param displayMode string
 local function ApplyDisplayMode(eventFrame, handle, displayMode)
     if not transmogFrameModule:IsValidDisplayMode(displayMode) then
-        Module:DebugLog("UnimplmentedDisplayMode: " .. tostring(displayMode))
+        Module:LogWarning("UnimplmentedDisplayMode: " .. tostring(displayMode))
         return
     end
 
     local wardrobeCollectionFrame = Module:GetFrame();
     if not wardrobeCollectionFrame then
-        Module:DebugLog("WardrobeCollection frame not found, cannot adjust for display mode change.");
+        Module:LogWarning("WardrobeCollection frame not found, cannot adjust for display mode change.");
         return
     end
 
@@ -88,13 +88,13 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
         end
       
     elseif displayMode == transmogFrameModule.Enum.DISPLAY_MODE.OUTFIT_SWAP then
-        Module:DebugLog("Hiding WardrobeCollection frame for OUTFIT_SWAP display mode.");
+        Module:LogInfo("Hiding WardrobeCollection frame for OUTFIT_SWAP display mode.");
         wardrobeCollectionFrame:Hide();
     end
 end
 
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes to WardrobeCollection module.")
+    Module:LogInfo("Applying changes to WardrobeCollection module.")
     
     -- initial frame setup
     Module:FixAnchors();
@@ -116,7 +116,7 @@ function Module:UpdateSituationTabMinWidth()
     local situationsFrame = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(self:GetFrame(), "TabContent.SituationsFrame");
     
     if (situationsFrame == nil) then
-        Module:DebugLog("Situations frame not found, cannot update min width.")
+        Module:LogWarning("Situations frame not found, cannot update min width.")
         return
     end
     
@@ -129,7 +129,7 @@ end
 function Module:SetCollectionFrameMinWidth(collectionFrameWidth)
     collectionFrameWidth = collectionFrameWidth or Module.Settings.MinFrameWidth;
 
-    Module:DebugLog("Setting TransmogFrame collection frame width to " .. tostring(collectionFrameWidth))
+    Module:LogInfo("Setting TransmogFrame collection frame width to " .. tostring(collectionFrameWidth))
 
     transmogFrameModule:SetMinFrameWidth(transmogFrameModule:GetStaticSizedChildrenWidth() + collectionFrameWidth);
 end

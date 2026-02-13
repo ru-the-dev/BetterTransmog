@@ -77,7 +77,7 @@ function Module:OnInitialize()
     end)
 
     router:RegisterRootCommand("/rl", function()
-        Core:DebugLog("ReloadUI command executed via BetterTransmog.")
+        Core:LogInfo("ReloadUI command executed via BetterTransmog.")
         ReloadUI()
     end, { always = true })
 end

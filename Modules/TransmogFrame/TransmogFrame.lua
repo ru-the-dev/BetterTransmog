@@ -57,11 +57,11 @@ end
 function Module:OnInitialize()
     -- Set initial display mode to FULL
     self.DisplayMode = self.Enum.DISPLAY_MODE.FULL
-    Module:DebugLog("Initial display mode set to: " .. self.DisplayMode)
+    Module:LogInfo("Initial display mode set to: " .. self.DisplayMode)
     
     -- Hook TRANSMOGRIFY_OPEN to force FULL mode when transmog NPC opens the frame
     Core.EventFrame:AddEvent("TRANSMOGRIFY_OPEN", function()
-        Module:DebugLog("TRANSMOGRIFY_OPEN event fired - switching to FULL mode")
+        Module:LogInfo("TRANSMOGRIFY_OPEN event fired - switching to FULL mode")
         self:SetDisplayMode(Module.Enum.DISPLAY_MODE.FULL)
     end)
 end
@@ -72,11 +72,9 @@ function Module:SetDisplayMode(displayMode)
     displayMode = displayMode or self.DisplayMode;
 
     if not displayMode then
-        Module:DebugLog("ERROR: Invalid display mode - nil provided")
+        Module:LogError("Invalid display mode - nil provided")
         return
     end
-
-   
 
     -- early out if already in desired mode, just restore positioning
     if self.DisplayMode == displayMode then return end
@@ -182,11 +180,11 @@ function Module:SetMinFrameWidth(minWidth, autoAdjust)
     local transmogFrame = self:GetFrame();
     local _, currentMinHeight, currentMaxWidth, currentMaxHeight = transmogFrame:GetResizeBounds()   
 
-    Module:DebugLog("Setting TransmogFrame minimum frame width to " .. tostring(minWidth))
+    Module:LogInfo("Setting TransmogFrame minimum frame width to " .. tostring(minWidth))
     transmogFrame:SetResizeBounds(minWidth, currentMinHeight, currentMaxWidth, currentMaxHeight)
 
     if autoAdjust and transmogFrame:GetWidth() < minWidth then
-        Module:DebugLog("Current frame width is less than minimum, re-adjusting frame width.");
+        Module:LogInfo("Current frame width is less than minimum, re-adjusting frame width.");
         transmogFrame:SetWidth(minWidth);
     end     
 end
@@ -201,11 +199,11 @@ function Module:SetMinFrameHeight(minHeight, autoAdjust)
     local transmogFrame = self:GetFrame();
     local currentMinWidth, _, currentMaxWidth, currentMaxHeight = transmogFrame:GetResizeBounds()   
 
-    Module:DebugLog("Setting TransmogFrame minimum frame height to " .. tostring(minHeight))
+    Module:LogInfo("Setting TransmogFrame minimum frame height to " .. tostring(minHeight))
     transmogFrame:SetResizeBounds(currentMinWidth, minHeight, currentMaxWidth, currentMaxHeight)
 
     if autoAdjust and transmogFrame:GetHeight() < minHeight then
-        Module:DebugLog("Current frame height is less than minimum, re-adjusting frame height.");
+        Module:LogInfo("Current frame height is less than minimum, re-adjusting frame height.");
         transmogFrame:SetHeight(minHeight);
     end
 end
@@ -220,11 +218,11 @@ function Module:SetMaxFrameWidth(maxWidth, autoAdjust)
     local transmogFrame = self:GetFrame();
     local currentMinWidth, currentMinHeight, _, currentMaxHeight = transmogFrame:GetResizeBounds()   
 
-    Module:DebugLog("Setting TransmogFrame maximum frame width to " .. tostring(maxWidth))
+    Module:LogInfo("Setting TransmogFrame maximum frame width to " .. tostring(maxWidth))
     transmogFrame:SetResizeBounds(currentMinWidth, currentMinHeight, maxWidth, currentMaxHeight)
 
     if autoAdjust and maxWidth and transmogFrame:GetWidth() > maxWidth then
-        Module:DebugLog("Current frame width is higher than maximum, re-adjusting frame width.");
+        Module:LogInfo("Current frame width is higher than maximum, re-adjusting frame width.");
         transmogFrame:SetWidth(maxWidth);
     end
 end
@@ -239,11 +237,11 @@ function Module:SetMaxFrameHeight(maxHeight, autoAdjust)
     local transmogFrame = self:GetFrame();
     local currentMinWidth, currentMinHeight, currentMaxWidth, _ = transmogFrame:GetResizeBounds()   
 
-    Module:DebugLog("Setting TransmogFrame maximum frame height to " .. tostring(maxHeight))
+    Module:LogInfo("Setting TransmogFrame maximum frame height to " .. tostring(maxHeight))
     transmogFrame:SetResizeBounds(currentMinWidth, currentMinHeight, currentMaxWidth, maxHeight)
 
     if autoAdjust and maxHeight and transmogFrame:GetHeight() > maxHeight then
-        Module:DebugLog("Current frame height is higher than maximum, re-adjusting frame height.");
+        Module:LogInfo("Current frame height is higher than maximum, re-adjusting frame height.");
         transmogFrame:SetHeight(maxHeight);
     end
 end

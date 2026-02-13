@@ -62,7 +62,7 @@ function Module:OnInitialize()
     
     LibDBIcon:Register("BetterTransmog", dataobj, db.MinimapButton)
     
-    self:DebugLog("LibDBIcon registered")
+    self:LogInfo("LibDBIcon registered")
 end
 
 --- Shows or hides the minimap button

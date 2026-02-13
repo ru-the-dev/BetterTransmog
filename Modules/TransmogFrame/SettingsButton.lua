@@ -34,7 +34,7 @@ Module.Settings = {}
 -- Module Implementation
 -- =======================================================
 function Module:OnInitialize()
-    Module:DebugLog("Applying changes.")
+    Module:LogInfo("Applying changes.")
 
     local transmogFrame = transmogFrameModule:GetFrame();
 

@@ -12,7 +12,7 @@ end
 
 local function TryDisablePlumberOutfitSelect()
     if not IsPlumberLoaded() then
-        Module:DebugLog("Plumber not loaded.")
+        Module:LogInfo("Plumber not loaded.")
         return false
     end
 
@@ -30,9 +30,9 @@ local function TryDisablePlumberOutfitSelect()
     end
 
     if disabled then
-        Module:DebugLog("Plumber detected: TransmogOutfitSelect disabled.")
+        Module:LogInfo("Plumber detected: TransmogOutfitSelect disabled.")
     else
-        Module:DebugLog("Plumber detected, but TransmogOutfitSelect could not be disabled (no API/db found).")
+        Module:LogWarning("Plumber detected, but TransmogOutfitSelect could not be disabled (no API/db found).")
     end
 
     return disabled
