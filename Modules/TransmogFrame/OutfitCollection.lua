@@ -108,6 +108,35 @@ local function AddCollapseButton()
     end)
 end
 
+local function HookUsableDiscountTextDisplayModeChanges()
+    local outfitCollectionFrame = Module:GetFrame();
+    if not outfitCollectionFrame.RefreshUsableDiscountText then
+        Module:LogWarning("RefreshUsableDiscountText not found on the outfitCollectionFrame, cannot hook for display mode changes.")
+        return
+    end
+
+    hooksecurefunc(outfitCollectionFrame, "RefreshUsableDiscountText", function()
+        local usableDiscountText = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(outfitCollectionFrame, "UsableDiscountText");
+
+        if not usableDiscountText then
+            Module:LogWarning("UsableDiscountText not found, cannot hook for display mode changes.")
+            return
+        end
+
+        local activeDisplayMode = transmogFrameModule:GetActiveDisplayMode();
+    
+        if activeDisplayMode == transmogFrameModule.Enum.DISPLAY_MODE.FULL then
+            usableDiscountText:SetShown(C_TransmogOutfitInfo.IsUsableDiscountAvailable());
+
+        elseif activeDisplayMode == transmogFrameModule.Enum.DISPLAY_MODE.OUTFIT_SWAP then
+            usableDiscountText:Hide();
+        else
+            Module:LogWarning("UnimplmentedDisplayMode: " .. activeDisplayMode)
+        end
+    
+    end)
+end
+
 
 ---@param eventFrame Frame
 ---@param handle any
@@ -143,10 +172,6 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
             outfitCollectionFrame.SaveOutfitButton:Hide();
         end
 
-        if outfitCollectionFrame.UsableDiscountText then 
-            outfitCollectionFrame.UsableDiscountText:Hide();
-        end
-
         local outfitList = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(outfitCollectionFrame, "OutfitList")
         if outfitList then
             local offset = Module.Settings.OutfitListOffsets.Compact
@@ -173,12 +198,7 @@ local function ApplyDisplayMode(eventFrame, handle, displayMode)
         if outfitCollectionFrame.SaveOutfitButton then
             outfitCollectionFrame.SaveOutfitButton:Show();
         end
-        
-        if outfitCollectionFrame.UsableDiscountText then 
-            outfitCollectionFrame.UsableDiscountText:SetShown(C_TransmogOutfitInfo.IsUsableDiscountAvailable());
-        end
-        
-
+    
         local outfitList = Core.Libs.LibRu.Utils.Frame.GetFrameByPath(outfitCollectionFrame, "OutfitList")
         if outfitList then
             local offset = Module.Settings.OutfitListOffsets.Full
@@ -196,6 +216,7 @@ function Module:OnInitialize()
     Module:FixAnchors();
 
     AddCollapseButton();
+    HookUsableDiscountTextDisplayModeChanges();
 
     Core.EventFrame:AddScript("OnTransmogFrameDisplayModeChanged", ApplyDisplayMode)
 end
