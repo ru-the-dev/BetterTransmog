@@ -13,9 +13,12 @@ local Module = Core.Libs.LibRu.Module.New(
     Core,
     {
         Core
-    },
-    false
+    }
 )
+
+if (Core.Debug) then 
+    Module.LogContext:DisableLevels("INFO");
+end
 
 function Module:OnInitialize()
     local router = Core.Libs.LibRu.CommandRouter.New("BetterTransmog", { baseCommands = { "/bettertransmog", "/bt" } })

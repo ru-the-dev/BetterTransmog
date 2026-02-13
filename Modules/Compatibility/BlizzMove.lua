@@ -4,7 +4,11 @@ local addon, ns = ...;
 local Core = ns.Core;
 
 --- @class BetterTransmog.Modules.Compatibility.BlizzMove : LibRu.Module
-local Module = Core.Libs.LibRu.Module.New("Compatibility.BlizzMove", Core, { Core }, true);
+local Module = Core.Libs.LibRu.Module.New("Compatibility.BlizzMove", Core, { Core });
+
+if Core.Debug then
+    Module.LogContext:DisableLevels("INFO");
+end
 
 local function IsBlizzMoveLoaded()
     return C_AddOns.IsAddOnLoaded("BlizzMove")
@@ -12,10 +16,10 @@ end
 
 local function TryDisableBlizzMoveTransmogFrame()
     if  not IsBlizzMoveLoaded() then
-        Module:DebugLog("BlizzMove not loaded.")
+        Module:LogInfo("BlizzMove not loaded.")
         return
     else 
-        Module:DebugLog("BlizzMove loaded.")
+        Module:LogInfo("BlizzMove loaded.")
     end
 
     local aceAddon = _G.LibStub:GetLibrary("AceAddon-3.0", true)
@@ -23,9 +27,9 @@ local function TryDisableBlizzMoveTransmogFrame()
     addon = addon or _G.BlizzMove
 
     if addon then
-        Module:DebugLog("BlizzMove addon found via AceAddon or global.")
+        Module:LogInfo("BlizzMove addon found via AceAddon or global.")
     else
-        Module:DebugLog("BlizzMove addon NOT found.")
+        Module:LogInfo("BlizzMove addon NOT found.")
         return false;
     end
 
@@ -34,14 +38,14 @@ local function TryDisableBlizzMoveTransmogFrame()
     ---@diagnostic disable-next-line: inject-field
     addon.ProcessFrame = function(self, addOnName, frameName, frameData, frameParent, retriedAfterNotFound)
         if addOnName == "Blizzard_Transmog" and frameName == "TransmogFrame" then
-            Module:DebugLog("BlizzMove: blocked ProcessFrame for " .. tostring(frameName))
+            Module:LogInfo("BlizzMove: blocked ProcessFrame for " .. tostring(frameName))
             return false
         end
 
         if type(oldProcessFrame) == "function" then
             local ok, result = pcall(oldProcessFrame, self, addOnName, frameName, frameData, frameParent, retriedAfterNotFound)
             if not ok then
-                Module:DebugLog("BlizzMove: ProcessFrame pcall failed for " .. tostring(addOnName) .. "." .. tostring(frameName) .. ": " .. tostring(result))
+                Module:LogInfo("BlizzMove: ProcessFrame pcall failed for " .. tostring(addOnName) .. "." .. tostring(frameName) .. ": " .. tostring(result))
                 return false
             end
             return result
@@ -55,12 +59,12 @@ local function TryDisableBlizzMoveTransmogFrame()
 
             if type(addon.UnregisterFrame) == "function" then
                 ok, result = pcall(addon.UnregisterFrame, addon, addOnName, frameName, true)
-                Module:DebugLog("BlizzMove: UnregisterFrame via addon " ..
+                Module:LogInfo("BlizzMove: UnregisterFrame via addon " ..
                 tostring(addOnName) .. "." .. tostring(frameName) .. " -> " .. tostring(ok) .. ", " .. tostring(result))
                 return ok and result
             end
 
-            Module:DebugLog("BlizzMove: UnregisterFrame not available for " ..
+            Module:LogInfo("BlizzMove: UnregisterFrame not available for " ..
             tostring(addOnName) .. "." .. tostring(frameName))
             return false
         end

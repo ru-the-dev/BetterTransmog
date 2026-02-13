@@ -9,9 +9,12 @@ local Module = Core.Libs.LibRu.Module.New(
     Core, 
     { 
         Core.Modules.AccountDB
-    },
-    false
+    }
 )
+
+if (Core.Debug) then 
+    Module.LogContext:DisableLevels("INFO");
+end
 
 --- ======================================================
 --- Dependencies

@@ -6,8 +6,11 @@ local addon, ns = ...;
 local Core = ns.Core;
 
 ---@class BetterTransmog.Modules.AccountDB : LibRu.Module
-local Module = Core.Libs.LibRu.Module.New("AccountDB", Core, { Core }, false);
+local Module = Core.Libs.LibRu.Module.New("AccountDB", Core, { Core });
 
+if (Core.Debug) then 
+    Module.LogContext:DisableLevels("INFO");
+end
 
 ---@class BetterTransmog.Modules.AccountDB.Defaults
 local DEFAULTS = {
@@ -52,6 +55,6 @@ function Module:OnInitialize()
 
     Module.DB = AccountDB;
 
-    self:DebugLog("AccountDB initialized.");
+    self:LogInfo("AccountDB initialized.");
 end
 

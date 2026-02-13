@@ -5,6 +5,9 @@ local Core = ns.Core;
 
 --- @class BetterTransmog.Modules.Compatibility.Plumber : LibRu.Module
 local Module = Core.Libs.LibRu.Module.New("Compatibility.Plumber", Core, { Core }, true);
+if Core.Debug then
+    Module.LogContext:DisableLevels("INFO");
+end
 
 local function IsPlumberLoaded()
     return C_AddOns.IsAddOnLoaded("Plumber")

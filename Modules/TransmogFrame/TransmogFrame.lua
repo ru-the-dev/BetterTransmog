@@ -10,7 +10,11 @@ local Core = ns.Core;
 
 --- @class BetterTransmog.Modules.TransmogFrame : LibRu.Module
 ---@field Modules {CharacterPreview: BetterTransmog.Modules.TransmogFrame.CharacterPreview, OutfitCollection: BetterTransmog.Modules.TransmogFrame.OutfitCollection, Positioning: BetterTransmog.Modules.TransmogFrame.Positioning, Resizing: BetterTransmog.Modules.TransmogFrame.Resizing, SettingsButton: BetterTransmog.Modules.TransmogFrame.SettingsButton, WardrobeCollection: BetterTransmog.Modules.TransmogFrame.WardrobeCollection}
-local Module = Core.Libs.LibRu.Module.New("TransmogFrame", Core, { Core }, false);
+local Module = Core.Libs.LibRu.Module.New("TransmogFrame", Core, { Core });
+if (Core.Debug) then 
+    Module.LogContext:DisableLevels("INFO");
+end
+
 
 --- =======================================================
 --- locals

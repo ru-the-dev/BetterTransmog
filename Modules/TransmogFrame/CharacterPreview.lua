@@ -13,9 +13,12 @@ local Module = Core.Libs.LibRu.Module.New(
     Core.Modules.TransmogFrame, 
     { 
         Core.Modules.TransmogFrame 
-    },
-    true
+    }
 );
+
+if (Core.Debug) then 
+    Module.LogContext:DisableLevels("INFO");
+end
 
 Module.IsResetCameraHooked = false;
 

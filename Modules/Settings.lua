@@ -10,9 +10,12 @@ local Module = Core.Libs.LibRu.Module.New(
     { 
         Core.Modules.AccountDB, 
         Core.Modules.TransmogFrame.Modules.CharacterPreview
-    },
-    false
+    }
 )
+
+if (Core.Debug) then 
+    Module.LogContext:DisableLevels("INFO");
+end
 
 --- ======================================================
 --- locals
