@@ -28,6 +28,7 @@ local DEFAULTS = {
             OffsetX = 0,
             OffsetY = 0,
         },
+        RestoreFramePosition = true,
         FramePositionOutfit = {
             Point = "CENTER",
             RelativeTo = "UIParent",

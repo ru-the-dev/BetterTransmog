@@ -77,11 +77,17 @@ end
 
 ---@param displayMode? BetterTransmog.Modules.TransmogFrame.DisplayMode|string display mode to restore for, if nil, will take the current transmogFrameModule displaymode
 function Module:RestoreSavedPosition(displayMode)
+    local accountDb = accountDBModule.DB:Get();
+
+    -- early out if user has disabled restoring frame position
+    if not accountDb.TransmogFrame.RestoreFramePosition then return end;
+
 
     --- set default to be the current display mode
     displayMode = displayMode or transmogFrameModule:GetActiveDisplayMode();
 
     Module:LogInfo("Restoring TransmogFrame position from AccountDB for display mode: " .. displayMode);
+    
     -- restore position from account DB
     local savedPosition = GetSavedPosition(displayMode);
     local transmogFrame = transmogFrameModule:GetFrame();

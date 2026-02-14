@@ -103,12 +103,25 @@ local function BuildPanel()
     end)
 
 
+    ---@type CheckButton
+    local restorePositionCheckbox = CreateFrame("CheckButton", "BetterTransmog_RestorePositionCheckbox", panel, "InterfaceOptionsCheckButtonTemplate")
+    restorePositionCheckbox:SetPoint("TOPLEFT", minimapButtonCheckbox, "BOTTOMLEFT", 0, -10)
+    restorePositionCheckbox:SetSize(26, 26)
+    restorePositionCheckbox.Text:SetText("Restore transmog frame position")
+    restorePositionCheckbox.Text:SetFontObject("GameFontHighlight")
+    restorePositionCheckbox:SetChecked(accountDbData.TransmogFrame.RestoreFramePosition)
+
+    restorePositionCheckbox:SetScript("OnClick", function(self)
+        local isChecked = self:GetChecked()
+        accountDbData.TransmogFrame.RestoreFramePosition = isChecked
+    end)
+
     local resetButton = CreateFrame("Button", "BetterTransmog_ResetButton", panel, "GameMenuButtonTemplate")
     resetButton:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -50, -15)
     resetButton:SetSize(125, 25)
     resetButton:SetText("Reset Settings")
     resetButton:SetScript("OnClick", function()
-        accountDbData:ResetSection({ "TransmogFrame" })
+        accountDBModule.DB:ResetSection({ "TransmogFrame" })
         ReloadUI()
     end)
 
