@@ -8,6 +8,14 @@ Added a new "Link Outfit" button which inserts a link to your currently selected
 This is accessible from both the hotswap character preview and the full transmog character preview.
 Requested by @Helgrymm
 
+## Added "Restore Position" setting
+Adds a "Restore Position" option that controls whether the transmog frame's position is restored when reopening.
+Requested by @Helgrymm
+
+## Fixed taint error when swapping outfits
+Fixed a taint/Lua error that could occur during outfit hotswaps by properly handling Combat and Encounter addon restrictions.
+Reported by @zyera-k
+
 
 # Version 2.0.5
 
