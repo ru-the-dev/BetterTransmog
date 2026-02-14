@@ -69,6 +69,7 @@ function Module:OnInitialize()
 
         if restrictions:IsAnyActive() then
             Module:LogInfo("Restricted - deferring FULL mode until restrictions lifted")
+            Core:PrintAddonMessage("Transmog frame will open once addon restrictions are lifted.");
             deferredOpenRequest = self.Enum.DISPLAY_MODE.FULL
             C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Transmogrifier)
             return
@@ -194,6 +195,7 @@ function Module:ToggleFrameInMode(displayMode)
 
     if restrictions:IsAnyActive() then
         Module:LogInfo("Restricted - deferring opening TransmogFrame")
+        Core:PrintAddonMessage("Transmog frame will open once addon restrictions are lifted.");
         deferredOpenRequest = displayMode
         return
     end
