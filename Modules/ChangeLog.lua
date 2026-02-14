@@ -37,6 +37,10 @@ CHANGELOG_ELEMENTS = {
         {type = 'text', text = [[The |cff0080ffOutfitDiscountText|r is now hidden while using Outfit Swap Mode to prevent visual clutter and overlapping text in the outfit preview panel.]], indent_level = 2},
         {type = 'heading', text = [[Added "Link Outfit" button]], level = 2, indent_level = 1},
         {type = 'text', text = [[Added a new "Link Outfit" button which inserts a link to your currently selected (pending) outfit into the active chat edit box, making it quick and easy to share outfits with others.|n|nThis is accessible from both the hotswap character preview and the full transmog character preview.|n|nRequested by @Helgrymm]], indent_level = 2},
+        {type = 'heading', text = [[Added "Restore Position" setting]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Adds a "Restore Position" option that controls whether the transmog frame's position is restored when reopening.|n|nRequested by @Helgrymm]], indent_level = 2},
+        {type = 'heading', text = [[Fixed taint error when swapping outfits]], level = 2, indent_level = 1},
+        {type = 'text', text = [[Fixed a taint/Lua error that could occur during outfit hotswaps by properly handling Combat and Encounter addon restrictions.|n|nReported by @zyera-k]], indent_level = 2},
     },
     ['Version 2.0.5'] = {
         {type = 'heading', text = [[Version 2.0.5]], level = 1, indent_level = 0},

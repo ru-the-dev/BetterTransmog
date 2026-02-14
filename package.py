@@ -1,16 +1,20 @@
-import shutil
 import re
+import shutil
 from pathlib import Path
 
-# Addon folder to package relative to this script
-# (path relative to root, output archive name)
-root = Path(__file__).parent
-ADDON_NAME = root.name
-TARGETS = [
-    (Path("."), ADDON_NAME),
-]
 
-# Glob-style patterns to skip
+# -------------------------------------------------------
+# Packaging config
+# -------------------------------------------------------
+
+ROOT = Path(__file__).parent
+ADDON_NAME = ROOT.name
+TOC_PATH = ROOT / "BetterTransmog.toc"
+
+# (source path relative to ROOT, output folder name inside zip)
+TARGETS = [(Path("."), ADDON_NAME)]
+
+# Files/directories that should never be shipped
 EXCLUDES = {
     ".git",
     ".github",
@@ -22,82 +26,97 @@ EXCLUDES = {
     "dist",
     "*.code-workspace",
     "*.py",
+    "*.ps1",
     "*AGENTS.md",
-    "*.ps1"
 }
 
 
 def read_version() -> str:
-    """Read the semantic version from the main TOC file."""
-    toc_path = root / "BetterTransmog.toc"
-    if not toc_path.exists():
+    """Read version from BetterTransmog.toc (## Version: x.y.z)."""
+    if not TOC_PATH.exists():
         return "0.0.0"
 
-    for line in toc_path.read_text(encoding="utf-8").splitlines():
+    for line in TOC_PATH.read_text(encoding="utf-8").splitlines():
         if line.lower().startswith("## version:"):
             return line.split(":", 1)[1].strip() or "0.0.0"
 
     return "0.0.0"
 
 
-def should_exclude(path: Path) -> bool:
-    """Return True if path matches any exclusion pattern."""
+def should_exclude(rel_path: Path) -> bool:
+    """Return True when a relative path should be excluded from packaging."""
+    as_posix = rel_path.as_posix()
+
     for pattern in EXCLUDES:
-        if path.match(pattern) or any(part == pattern for part in path.parts):
+        if rel_path.match(pattern):
             return True
+        if any(part == pattern for part in rel_path.parts):
+            return True
+        if Path(as_posix).match(pattern):
+            return True
+
     return False
 
 
-def copy_tree(src: Path, dst: Path) -> None:
+def copy_filtered_tree(src: Path, dst: Path, source_root: Path) -> None:
+    """Recursively copy source tree into destination, applying exclusions."""
     for item in src.iterdir():
-        rel = item.relative_to(src)
-        if should_exclude(rel):
+        rel_from_root = item.relative_to(source_root)
+        if should_exclude(rel_from_root):
             continue
-        target = dst / rel
+
+        target = dst / item.name
+
         if item.is_dir():
             target.mkdir(parents=True, exist_ok=True)
-            copy_tree(item, target)
-        else:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(item, target)
-            
-            # Ensure debug mode is disabled in all Lua files
-            if item.name.endswith(".lua"):
-                content = target.read_text(encoding="utf-8")
+            copy_filtered_tree(item, target, source_root)
+            continue
 
-                # Multiline-safe replacement for LibRu.Module.New(..., true) -> ..., false
-                def _replace_module_new(match):
-                    inner = match.group(1)
-                    new_inner, n = re.subn(r',\s*true\s*$', ', false', inner, flags=re.S)
-                    if n:
-                        return 'LibRu.Module.New(' + new_inner + ')'
-                    return match.group(0)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, target)
 
-                content = re.sub(r'LibRu\.Module\.New\((.*?)\)', _replace_module_new, content, flags=re.S)
 
-                target.write_text(content, encoding="utf-8")
+def apply_release_overrides(staged_root: Path) -> None:
+    """
+    Apply minimal release-time overrides to the staged addon files.
+
+    Current policy:
+    - Force Core.Debug = false in Core.lua so debug logging is disabled in release builds.
+    """
+    core_lua = staged_root / "Core.lua"
+    if not core_lua.exists():
+        return
+
+    content = core_lua.read_text(encoding="utf-8")
+    content = re.sub(r"\bCore\.Debug\s*=\s*true\s*;?", "Core.Debug = false;", content)
+    core_lua.write_text(content, encoding="utf-8")
 
 
 def package_target(target_path: Path, archive_name: str, dist_dir: Path, version: str) -> None:
-    src = root / target_path
+    """Build one addon zip from a target source path."""
+    src = ROOT / target_path
     if not src.exists():
         raise FileNotFoundError(f"Missing target: {src}")
 
-    temp_dir = dist_dir / "_tmp" / archive_name
-    if temp_dir.exists():
-        shutil.rmtree(temp_dir)
-    temp_dir.mkdir(parents=True)
+    tmp_root = dist_dir / "_tmp"
+    staged_addon_root = tmp_root / archive_name
 
-    copy_tree(src, temp_dir)
+    if tmp_root.exists():
+        shutil.rmtree(tmp_root)
 
-    zip_path = dist_dir / f"{archive_name}.{version}"
-    archive = shutil.make_archive(str(zip_path), "zip", temp_dir.parent, archive_name)
-    shutil.rmtree(temp_dir.parent)
-    print(f"Created {archive}")
+    staged_addon_root.mkdir(parents=True, exist_ok=True)
+    copy_filtered_tree(src, staged_addon_root, src)
+    apply_release_overrides(staged_addon_root)
+
+    output_stem = dist_dir / f"{archive_name}.{version}"
+    archive_path = shutil.make_archive(str(output_stem), "zip", tmp_root, archive_name)
+
+    shutil.rmtree(tmp_root)
+    print(f"Created {archive_path}")
 
 
 def main() -> None:
-    dist_dir = root / "dist"
+    dist_dir = ROOT / "dist"
     dist_dir.mkdir(exist_ok=True)
 
     version = read_version()
