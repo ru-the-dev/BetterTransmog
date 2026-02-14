@@ -4,7 +4,7 @@ local addon, ns = ...;
 local Core = ns.Core;
 
 --- @class BetterTransmog.Modules.Compatibility.Plumber : LibRu.Module
-local Module = Core.Libs.LibRu.Module.New("Compatibility.Plumber", Core, { Core }, true);
+local Module = Core.Libs.LibRu.Module.New("Compatibility.Plumber", Core, { Core });
 if Core.Debug then
     Module.LogContext:DisableLevels("INFO");
 end
