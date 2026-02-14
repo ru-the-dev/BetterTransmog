@@ -86,7 +86,7 @@ local function BuildPanel()
         ShowReloadDialog()
     end)
 
-    ---@type CheckButton
+    
     local minimapButtonCheckbox = CreateFrame("CheckButton", "BetterTransmog_MinimapButtonCheckbox", panel, "InterfaceOptionsCheckButtonTemplate")
     minimapButtonCheckbox:SetPoint("TOPLEFT", previewFrameWidthSlider, "BOTTOMLEFT", 0, -20)
     minimapButtonCheckbox:SetSize(26, 26)
@@ -103,7 +103,6 @@ local function BuildPanel()
     end)
 
 
-    ---@type CheckButton
     local restorePositionCheckbox = CreateFrame("CheckButton", "BetterTransmog_RestorePositionCheckbox", panel, "InterfaceOptionsCheckButtonTemplate")
     restorePositionCheckbox:SetPoint("TOPLEFT", minimapButtonCheckbox, "BOTTOMLEFT", 0, -10)
     restorePositionCheckbox:SetSize(26, 26)
@@ -121,7 +120,7 @@ local function BuildPanel()
     resetButton:SetSize(125, 25)
     resetButton:SetText("Reset Settings")
     resetButton:SetScript("OnClick", function()
-        accountDBModule.DB:ResetSection({ "TransmogFrame" })
+        accountDBModule.DB:ResetSection("TransmogFrame")
         ReloadUI()
     end)
 
