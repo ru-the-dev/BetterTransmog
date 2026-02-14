@@ -11,7 +11,7 @@ local Core = ns.Core;
 --- @class BetterTransmog.Modules.TransmogFrame : LibRu.Module
 ---@field Modules {CharacterPreview: BetterTransmog.Modules.TransmogFrame.CharacterPreview, OutfitCollection: BetterTransmog.Modules.TransmogFrame.OutfitCollection, Positioning: BetterTransmog.Modules.TransmogFrame.Positioning, Resizing: BetterTransmog.Modules.TransmogFrame.Resizing, SettingsButton: BetterTransmog.Modules.TransmogFrame.SettingsButton, WardrobeCollection: BetterTransmog.Modules.TransmogFrame.WardrobeCollection}
 local Module = Core.Libs.LibRu.Module.New("TransmogFrame", Core, { Core });
-if (Core.Debug) then 
+if Core.Debug then 
     Module.LogContext:DisableLevels("INFO");
 end
 
@@ -21,12 +21,19 @@ end
 --- ================================================
 local _transmogFrame = nil
 
+---@type BetterTransmog.Modules.TransmogFrame.DisplayMode|nil
+local deferredOpenRequest = nil
+
+local restrictions = Core.Libs.LibRu.Utils.Restrictions.New(
+    Enum.AddOnRestrictionType.Combat,
+    Enum.AddOnRestrictionType.Encounter
+)
+
 --- =======================================================
 --- Settings
 --- =======================================================
 
 Module.Settings = {
-    TRANSMOG_FRAME_ID = 24,
     MinHeight = 750,
     MinWidth = 1330,
     MinResizeBounds = {
@@ -47,14 +54,6 @@ Module.Enum.DISPLAY_MODE = {
 local activeDisplayMode = nil
 local isApplyingDisplayMode = false
 
-
----@param displayMode string
----@return boolean
-function Module:IsValidDisplayMode(displayMode)
-    return displayMode == Module.Enum.DISPLAY_MODE.FULL
-        or displayMode == Module.Enum.DISPLAY_MODE.OUTFIT_SWAP
-end
-
 --- =======================================================
 --- Module Implementation
 --- =======================================================
@@ -67,13 +66,60 @@ function Module:OnInitialize()
     -- Hook TRANSMOGRIFY_OPEN to force FULL mode when transmog NPC opens the frame
     Core.EventFrame:AddEvent("TRANSMOGRIFY_OPEN", function()
         Module:LogInfo("TRANSMOGRIFY_OPEN event fired - switching to FULL mode")
+
+        if restrictions:IsAnyActive() then
+            Module:LogInfo("Restricted - deferring FULL mode until restrictions lifted")
+            deferredOpenRequest = self.Enum.DISPLAY_MODE.FULL
+            C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Transmogrifier)
+            return
+        end
+
         self:SetDisplayMode(Module.Enum.DISPLAY_MODE.FULL)
     end)
+
+    Core.EventFrame:AddEvent("ADDON_RESTRICTION_STATE_CHANGED",
+        --- @param type Enum.AddOnRestrictionType
+        --- @param state Enum.AddOnRestrictionState
+        function(self, handle, event, type, state)
+
+            if state == Enum.AddOnRestrictionState.Inactive then
+                -- restriction lifted, check if there are no more restrictions, and if not then process any deferred open request
+                if not restrictions:IsAnyActive() then
+                    if deferredOpenRequest then
+                        if deferredOpenRequest == Module.Enum.DISPLAY_MODE.FULL and not C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.Transmogrifier) then
+                            Module:LogInfo("Deferring open request for FULL mode, but player is not currently interacting with transmog NPC - ignoring deferred request")
+                            deferredOpenRequest = nil
+                            return
+                        end 
+                        Module:LogInfo("Restrictions lifted - processing deferred open request for display mode: " .. deferredOpenRequest)
+
+                        Module:SetDisplayMode(deferredOpenRequest)
+                        ShowUIPanel(Module:GetFrame())
+                        deferredOpenRequest = nil
+                    end
+                end
+            elseif state == Enum.AddOnRestrictionState.Activating then
+                -- check if thee restriction is part of the ones we care about
+                if restrictions:Contains(type) then 
+                    Module:LogInfo("Restriction activated - ensuring transmog frame is hidden and deferring any open requests")
+                    HideUIPanel(Module:GetFrame())
+                end
+            end
+        end
+    )
+end
+
+---@param displayMode string
+---@return boolean
+function Module:IsValidDisplayMode(displayMode)
+    return displayMode == Module.Enum.DISPLAY_MODE.FULL
+        or displayMode == Module.Enum.DISPLAY_MODE.OUTFIT_SWAP
 end
 
 --- Sets the display mode and applies all associated configuration
 ---@param displayMode BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 function Module:SetDisplayMode(displayMode)
+
     displayMode = displayMode or activeDisplayMode;
 
     if not displayMode then
@@ -140,8 +186,15 @@ end
 ---@param displayMode BetterTransmog.Modules.TransmogFrame.DisplayMode|string
 function Module:ToggleFrameInMode(displayMode)
     local transmogFrame = self:GetFrame()
+
     if transmogFrame and transmogFrame:IsShown() and activeDisplayMode == displayMode then
         HideUIPanel(transmogFrame)
+        return
+    end
+
+    if restrictions:IsAnyActive() then
+        Module:LogInfo("Restricted - deferring opening TransmogFrame")
+        deferredOpenRequest = displayMode
         return
     end
 
